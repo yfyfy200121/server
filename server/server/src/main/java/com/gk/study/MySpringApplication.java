@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Administrator
- * @email 123456@qq.com
+ * @email 
  */
 @SpringBootApplication
 public class MySpringApplication {
