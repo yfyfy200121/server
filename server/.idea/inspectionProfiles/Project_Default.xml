@@ -1,0 +1,31 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="coremltools" />
+          <option value="matplotlib" />
+          <option value="numpy" />
+          <option value="onnx" />
+          <option value="opencv_python" />
+          <option value="pafy" />
+          <option value="pandas" />
+          <option value="Pillow" />
+          <option value="pycocotools" />
+          <option value="PyQt5" />
+          <option value="PyYAML" />
+          <option value="requests" />
+          <option value="scipy" />
+          <option value="seaborn" />
+          <option value="setuptools" />
+          <option value="thop" />
+          <option value="torch" />
+          <option value="torchvision" />
+          <option value="tqdm" />
+          <option value="wandb" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

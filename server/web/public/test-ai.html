@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AI客服测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        input, button { padding: 10px; margin: 5px; }
+        #response { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #dff0d8; color: #3c763d; }
+        .error { background-color: #f2dede; color: #a94442; }
+        .info { background-color: #d9edf7; color: #31708f; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI客服测试</h1>
+        <input type="text" id="messageInput" placeholder="输入消息" style="width: 300px;">
+        <button onclick="sendMessage()">发送消息</button>
+        <button onclick="testConnection()">测试连接</button>
+        <button onclick="testAuth()">测试认证</button>
+        <button onclick="testKey()">检查密钥</button>
+        
+        <div id="response"></div>
+    </div>
+
+    <script>
+        // 测试发送消息功能
+        async function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            if (!message.trim()) {
+                alert('请输入消息');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://127.0.0.1:9100/api/ai-chat/message?message=${encodeURIComponent(message)}`);
+                const data = await response.json();
+                
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = `
+                    <h3>响应结果:</h3>
+                    <p><strong>状态码:</strong> ${response.status}</p>
+                    <p><strong>返回码:</strong> ${data.code}</p>
+                    <p><strong>消息:</strong> ${data.message}</p>
+                    <p><strong>数据:</strong> ${data.data}</p>
+                `;
+                responseDiv.className = data.code === 200 ? 'success' : 'error';
+            } catch (error) {
+                console.error('Error:', error);
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = `<p><strong>错误:</strong> ${error.message}</p>`;
+                responseDiv.className = 'error';
+            }
+        }
+        
+        // 测试连接功能
+        async function testConnection() {
+            try {
+                const response = await fetch('http://127.0.0.1:9100/api/ai-chat/test-connection');
+                const data = await response.json();
+                
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = `
+                    <h3>连接测试结果:</h3>
+                    <p><strong>API密钥已配置:</strong> ${data.apiKeyConfigured}</p>
+                    <p><strong>API密钥长度:</strong> ${data.apiKeyLength}</p>
+                    <p><strong>API URL:</strong> ${data.apiUrl}</p>
+                    <p><strong>掩码API密钥:</strong> ${data.maskedApiKey || 'N/A'}</p>
+                `;
+                responseDiv.className = 'info';
+            } catch (error) {
+                console.error('Error:', error);
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = `<p><strong>错误:</strong> ${error.message}</p>`;
+                responseDiv.className = 'error';
+            }
+        }
+        
+        // 测试认证功能
+        async function testAuth() {
+            try {
+                const response = await fetch('http://127.0.0.1:9100/api/ai-chat/test/auth');
+                const data = await response.json();
+                
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = `
+                    <h3>认证测试结果:</h3>
+                    <p><strong>状态:</strong> ${data.status}</p>
+                    <p><strong>状态码:</strong> ${data.statusCode || 'N/A'}</p>
+                    <p><strong>消息:</strong> ${data.message}</p>
+                    <p><strong>异常类型:</strong> ${data.exceptionType || 'N/A'}</p>
+                `;
+                responseDiv.className = data.status === 'success' ? 'success' : 'error';
+            } catch (error) {
+                console.error('Error:', error);
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = `<p><strong>错误:</strong> ${error.message}</p>`;
+                responseDiv.className = 'error';
+            }
+        }
+        
+        // 检查密钥
+        async function testKey() {
+            try {
+                const response = await fetch('http://127.0.0.1:9100/api/ai-chat/test/key');
+                const data = await response.json();
+                
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = `
+                    <h3>密钥检查结果:</h3>
+                    <p><strong>API密钥已配置:</strong> ${data.apiKeyConfigured}</p>
+                    <p><strong>API密钥长度:</strong> ${data.apiKeyLength || 'N/A'}</p>
+                    <p><strong>API密钥前缀:</strong> ${data.startsWith || 'N/A'}</p>
+                    <p><strong>API密钥后缀:</strong> ${data.endsWith || 'N/A'}</p>
+                    <p><strong>API URL:</strong> ${data.apiUrl}</p>
+                `;
+                responseDiv.className = 'info';
+            } catch (error) {
+                console.error('Error:', error);
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = `<p><strong>错误:</strong> ${error.message}</p>`;
+                responseDiv.className = 'error';
+            }
+        }
+        
+        // 页面加载完成后自动测试连接
+        window.onload = function() {
+            testConnection();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+2025-09-03 17:46:06.898 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 55 ] - Starting MySpringApplication using Java 1.8.0_131 on yfyfyfmini with PID 21584 (C:\Users\11568\OneDrive\Graduation project\shop_project\server\server\target\classes started by 11568 in C:\Users\11568\OneDrive\Graduation project\shop_project\server)
+2025-09-03 17:46:06.906 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 659 ] - No active profile set, falling back to default profiles: default
+2025-09-03 17:46:08.526 [ main ] - [ INFO  ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] - Initializing ProtocolHandler ["http-nio-9100"]
+2025-09-03 17:46:08.528 [ main ] - [ INFO  ] [ org.apache.catalina.core.StandardService : 173 ] - Starting service [Tomcat]
+2025-09-03 17:46:08.528 [ main ] - [ INFO  ] [ org.apache.catalina.core.StandardEngine : 173 ] - Starting Servlet engine: [Apache Tomcat/9.0.53]
+2025-09-03 17:46:08.632 [ main ] - [ INFO  ] [ o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] : 173 ] - Initializing Spring embedded WebApplicationContext
+2025-09-03 17:46:09.143 [ main ] - [ WARN  ] [ c.b.mybatisplus.core.injector.DefaultSqlInjector : 56 ] - class java.lang.Object ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2025-09-03 17:46:10.567 [ main ] - [ INFO  ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] - Starting ProtocolHandler ["http-nio-9100"]
+2025-09-03 17:46:10.605 [ main ] - [ INFO  ] [ o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] : 173 ] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-03 17:46:10.629 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 61 ] - Started MySpringApplication in 4.346 seconds (JVM running for 5.735)
+2025-09-03 17:46:44.161 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2025-09-03 17:46:44.858 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2025-09-03 17:46:49.094 [ http-nio-9100-exec-7 ] - [ INFO  ] [ org.apache.tomcat.util.http.parser.Cookie : 173 ] - A cookie header was received [1755516929,1755518464,1755519958; _ga_73YJPXJTLX=GS2.1.s1755509669$o10$g1$t1755520947$j60$l0$h0] that contained an invalid cookie. That cookie will be ignored.
+ Note: further occurrences of this error will be logged at DEBUG level.
+2025-09-03 17:46:49.100 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 92 ] - AI chat request received - message: 你好, sessionId: 
+2025-09-03 17:46:49.101 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 51 ] - Refreshing thing cache
+2025-09-03 17:46:49.139 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 142 ] - Sending request to AI service with message: 你好
+2025-09-03 17:46:53.752 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 151 ] - Received response from AI service with status: 200 OK
+2025-09-03 17:46:53.752 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 179 ] - Successfully processed AI response
+2025-09-03 18:26:12.547 [ HikariPool-1 housekeeper ] - [ WARN  ] [ com.zaxxer.hikari.pool.HikariPool : 788 ] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=56s924ms82µs700ns).
+2025-09-03 18:26:27.263 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2025-09-03 18:26:27.273 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
