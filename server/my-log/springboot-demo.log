@@ -1,21 +1,15 @@
-2025-09-09 14:11:51.332 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 55 ] - Starting MySpringApplication using Java 1.8.0_192 on yfyfyfmini with PID 9508 (C:\Users\11568\OneDrive\Graduation project\shop_project\server\server\target\classes started by 11568 in C:\Users\11568\OneDrive\Graduation project\shop_project\server)
-2025-09-09 14:11:51.337 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 659 ] - No active profile set, falling back to default profiles: default
-2025-09-09 14:11:52.129 [ main ] - [ INFO  ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] - Initializing ProtocolHandler ["http-nio-9100"]
-2025-09-09 14:11:52.132 [ main ] - [ INFO  ] [ org.apache.catalina.core.StandardService : 173 ] - Starting service [Tomcat]
-2025-09-09 14:11:52.133 [ main ] - [ INFO  ] [ org.apache.catalina.core.StandardEngine : 173 ] - Starting Servlet engine: [Apache Tomcat/9.0.53]
-2025-09-09 14:11:52.182 [ main ] - [ INFO  ] [ o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] : 173 ] - Initializing Spring embedded WebApplicationContext
-2025-09-09 14:11:52.443 [ main ] - [ WARN  ] [ c.b.mybatisplus.core.injector.DefaultSqlInjector : 56 ] - class java.lang.Object ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
-2025-09-09 14:11:53.128 [ main ] - [ INFO  ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] - Starting ProtocolHandler ["http-nio-9100"]
-2025-09-09 14:11:53.146 [ main ] - [ INFO  ] [ o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] : 173 ] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-09-09 14:11:53.159 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 61 ] - Started MySpringApplication in 2.162 seconds (JVM running for 2.833)
-2025-09-09 14:12:07.963 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
-2025-09-09 14:12:08.428 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
-2025-09-09 14:12:29.014 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 92 ] - AI chat request received - message: 我想学c++你有什么好推荐吗, sessionId: 
-2025-09-09 14:12:29.014 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 51 ] - Refreshing thing cache
-2025-09-09 14:12:29.063 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 142 ] - Sending request to AI service with message: 我想学c++你有什么好推荐吗
-2025-09-09 14:12:34.678 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 151 ] - Received response from AI service with status: 200 OK
-2025-09-09 14:12:34.678 [ http-nio-9100-exec-7 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 179 ] - Successfully processed AI response
-2025-09-09 15:07:48.847 [ HikariPool-1 housekeeper ] - [ WARN  ] [ com.zaxxer.hikari.pool.HikariPool : 788 ] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=41m10s120ms365µs100ns).
-2025-09-09 16:55:43.446 [ HikariPool-1 housekeeper ] - [ WARN  ] [ com.zaxxer.hikari.pool.HikariPool : 788 ] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h45m24s575ms364µs200ns).
-2025-09-09 16:56:15.768 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
-2025-09-09 16:56:15.771 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
+2025-09-14 09:21:28.956 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 55 ] - Starting MySpringApplication using Java 1.8.0_192 on yfyfyfmini with PID 22436 (C:\Users\11568\OneDrive\Graduation project\shop_project\server\server\target\classes started by 11568 in C:\Users\11568\OneDrive\Graduation project\shop_project\server)
+2025-09-14 09:21:28.961 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 659 ] - No active profile set, falling back to default profiles: default
+2025-09-14 09:21:29.778 [ main ] - [ INFO  ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] - Initializing ProtocolHandler ["http-nio-9100"]
+2025-09-14 09:21:29.779 [ main ] - [ INFO  ] [ org.apache.catalina.core.StandardService : 173 ] - Starting service [Tomcat]
+2025-09-14 09:21:29.779 [ main ] - [ INFO  ] [ org.apache.catalina.core.StandardEngine : 173 ] - Starting Servlet engine: [Apache Tomcat/9.0.53]
+2025-09-14 09:21:29.828 [ main ] - [ INFO  ] [ o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] : 173 ] - Initializing Spring embedded WebApplicationContext
+2025-09-14 09:21:30.099 [ main ] - [ WARN  ] [ c.b.mybatisplus.core.injector.DefaultSqlInjector : 56 ] - class java.lang.Object ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2025-09-14 09:21:30.742 [ main ] - [ INFO  ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] - Starting ProtocolHandler ["http-nio-9100"]
+2025-09-14 09:21:30.752 [ main ] - [ INFO  ] [ o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] : 173 ] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-14 09:21:30.761 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 61 ] - Started MySpringApplication in 2.154 seconds (JVM running for 2.76)
+2025-09-14 09:23:40.271 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2025-09-14 09:23:40.381 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2025-09-14 09:40:53.926 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.interceptor.AccessInterceptor : 109 ] - token==>a9b017c19f6991b3a26b31ae32542764
+2025-09-14 09:48:49.289 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2025-09-14 09:48:49.295 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
