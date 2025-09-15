@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
+import com.gk.study.entity.Comment;
 
 @RestController
 @RequestMapping("/ai-chat")
@@ -49,7 +50,7 @@ public class AiChatController {
         long currentTime = System.currentTimeMillis();
         if (thingCache.isEmpty() || (currentTime - lastCacheUpdate) > CACHE_DURATION) {
             logger.info("Refreshing thing cache");
-            thingCache = thingService.getThingList(null, null, null, null);
+            thingCache = thingService.getThingListWithComments(null, null, null, null);
             lastCacheUpdate = currentTime;
         }
         return thingCache;
@@ -62,7 +63,7 @@ public class AiChatController {
     private String buildSystemPrompt() {
         StringBuilder prompt = new StringBuilder();
         prompt.append("你是购物商城的智能客服助手。你的任务是帮助用户了解商城中的商品信息。");
-        prompt.append("以下是商城中的商品信息：\n");
+        prompt.append("以下是商城中的商品信息及用户评价：\n");
 
         List<Thing> things = getThingInfo();
         for (Thing thing : things) {
@@ -70,11 +71,26 @@ public class AiChatController {
             prompt.append("价格：").append(thing.getPrice()).append("\n");
             prompt.append("描述：").append(thing.getDescription()).append("\n");
             prompt.append("库存：").append(thing.getRepertory()).append("\n");
+            
+            // 添加用户评论数据
+            if (thing.getComments() != null && !thing.getComments().isEmpty()) {
+                prompt.append("用户评价：\n");
+                for (Comment comment : thing.getComments()) {
+                    prompt.append("- 评分：").append(comment.getScore())
+                          .append("，评论：").append(comment.getContent()).append("\n");
+                    
+                    // 如果评论包含关键词，则特别标注
+                    if (comment.getKeywords() != null && !comment.getKeywords().isEmpty()) {
+                        prompt.append("  （重点关注：").append(String.join(",", comment.getKeywords())).append(")\n");
+                    }
+                }
+            }
+            
             prompt.append("---\n");
         }
 
-        prompt.append("\n请根据以上商品信息回答用户的问题，如果用户询问某件商品的详细信息，请提供该商品的完整信息。");
-        prompt.append("如果用户询问推荐商品，请根据用户需求从以上商品中推荐合适的商品。");
+        prompt.append("\n请根据以上商品信息和用户评价回答用户的问题，特别关注用户评论中提到的优点和问题。");
+        prompt.append("如果用户询问推荐商品，请优先考虑高评分和正面评价的商品。");
         prompt.append("如果用户询问的问题与商品无关，请礼貌地告知用户你主要的功能是帮助他们了解商城商品。");
         return prompt.toString();
     }

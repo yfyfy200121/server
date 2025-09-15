@@ -17,4 +17,6 @@ public interface ThingService {
     void addWishCount(String thingId);
 
     void addCollectCount(String thingId);
+
+    List<Thing> getThingListWithComments(String keyword, String sort, String c, String tag);
 }

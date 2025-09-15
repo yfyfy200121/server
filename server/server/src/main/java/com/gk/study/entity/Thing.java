@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @TableName("b_thing")
 public class Thing implements Serializable {
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     public Long id;
     @TableField
     public String title;
@@ -48,4 +48,6 @@ public class Thing implements Serializable {
     @TableField(exist = false)
     public MultipartFile imageFile;
 
+    @TableField(exist = false)
+    public List<Comment> comments; // 商品评论列表
 }

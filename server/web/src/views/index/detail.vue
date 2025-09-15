@@ -1,6 +1,4 @@
-
-
-  <template>
+<template>
   <div class="detail">
     <Header/>
 
@@ -22,10 +20,6 @@
                   <span class="a-price-symbol">¥</span>
                   <span class="a-price">{{detailData.price}}</span>
                 </span>
-                <div class="translators flex-view" style="">
-                  <span>分类：</span>
-                  <span class="name">{{ detailData.classification_title }}</span>
-                </div>
                 <div class="translators flex-view" style="">
                   <span>库存：</span>
                   <span class="name">{{ detailData.repertory }}</span>
@@ -110,11 +104,6 @@
               </div>
               <div class="tab-view flex-view">
                 <div class="count-text">共有{{ commentData.length }}条评论</div>
-                <div class="tab-box flex-view" v-if="commentData.length > 0">
-                  <span :class="sortIndex === 0? 'tab-select': ''" @click="sortCommentList('recent')">最新</span>
-                  <div class="line"></div>
-                  <span :class="sortIndex === 1? 'tab-select': ''" @click="sortCommentList('hot')">热门</span>
-                </div>
               </div>
               <div class="comments-list">
                 <div class="comment-item" v-for="item in commentData">
@@ -123,10 +112,6 @@
                     <div class="person">
                       <div class="name">{{ item.username }}</div>
                       <div class="time">{{ item.commentTime }}</div>
-                    </div>
-                    <div class="float-right">
-                      <span @click="like(item.id)">推荐</span>
-                      <span class="num">{{ item.likeCount }}</span>
                     </div>
                   </div>
                   <p class="comment-content">{{ item.content }}</p>
@@ -180,7 +165,7 @@ import {
   detailApi,
   listApi as listThingList,
 } from '/@/api/thing'
-import {listThingCommentsApi, createApi as createCommentApi, likeApi} from '/@/api/comment'
+import {listThingCommentsApi, createApi as createCommentApi} from '/@/api/comment'
 import {wishApi} from '/@/api/thingWish'
 import {collectApi} from '/@/api/thingCollect'
 import {BASE_URL} from "/@/store/constants";
@@ -201,8 +186,6 @@ let selectTabIndex = ref(0)
 
 let commentData = ref([])
 let recommendData = ref([])
-let sortIndex = ref(0)
-let order = ref('recent') // 默认排序最新
 
 let commentRef = ref()
 
@@ -307,15 +290,8 @@ const sendComment =()=> {
     router.push({name: 'login'})
   }
 }
-const like =(commentId)=> {
-  likeApi({id: commentId}).then(res => {
-    getCommentList()
-  }).catch(err => {
-    console.log(err)
-  })
-}
 const getCommentList =()=> {
-  listThingCommentsApi({thingId: thingId.value, order: order.value}).then(res => {
+  listThingCommentsApi({thingId: thingId.value}).then(res => {
     res.data.forEach(item => {
       item.commentTime = getFormatTime(item.commentTime, true)
     })
@@ -323,15 +299,6 @@ const getCommentList =()=> {
   }).catch(err => {
     console.log(err)
   })
-}
-const sortCommentList =(sortType)=> {
-  if (sortType === 'recent') {
-    sortIndex.value = 0
-  } else {
-    sortIndex.value = 1
-  }
-  order.value = sortType
-  getCommentList()
 }
 
 </script>

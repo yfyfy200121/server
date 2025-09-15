@@ -46,10 +46,6 @@
               <folder-outlined/>
             </template>
             <template #title>运营管理</template>
-            <a-menu-item key="ad">
-              <appstore-outlined/>
-              <span>广告管理</span>
-            </a-menu-item>
             <a-menu-item key="notice">
               <appstore-outlined/>
               <span>通知公告</span>
@@ -123,8 +119,18 @@ const handleClick = ({item, key, keyPath}) => {
 }
 
 const handlePreview = ()=>{
-  let text = router.resolve({name: 'index'})
-  window.open(text.href, '_blank')
+  // 跳转到���台首页（/index/portal），尽量使用路由解析，最终保证为绝对 URL
+  try {
+    const resolved = router.resolve({ name: 'portal' })
+    let href = (resolved && resolved.href) ? resolved.href : '/index/portal'
+    if (!/^https?:\/\//.test(href)) {
+      href = window.location.origin + href
+    }
+    window.open(href, '_blank')
+  } catch (e) {
+    // 最后兜底使用绝对路径
+    window.open(window.location.origin + '/index/portal', '_blank')
+  }
 }
 
 onMounted(() => {

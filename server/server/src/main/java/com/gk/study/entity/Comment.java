@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @TableName("b_comment")
@@ -29,5 +29,10 @@ public class Comment implements Serializable {
     public String title; // 商品名称
     @TableField(exist = false)
     public String cover; // 商品封面
-
+    
+    @TableField(exist = false)
+    public Integer score; // 评论评分
+    
+    @TableField(exist = false)
+    public List<String> keywords; // 评论中提取的关键特征词
 }

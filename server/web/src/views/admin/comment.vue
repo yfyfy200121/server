@@ -4,7 +4,6 @@
     <div class="page-view">
       <div class="table-operations">
         <a-space>
-          <a-button type="primary" @click="handleAdd">模拟新增</a-button>
           <a-button @click="handleBatchDelete">批量删除</a-button>
         </a-space>
       </div>
@@ -43,7 +42,7 @@
 
 <script setup lang="ts">
 import {FormInstance, message} from 'ant-design-vue';
-import {createApi, listApi, deleteApi} from '/@/api/comment';
+import {listApi, deleteApi} from '/@/api/comment';
 import {BASE_URL} from "/@/store/constants";
 import {getFormatTime} from "/@/utils";
 
@@ -148,15 +147,6 @@ const rowSelection = ref({
     data.selectedRowKeys = selectedRowKeys;
   },
 });
-
-const handleAdd = () => {
-  // createApi({}).then(res => {
-  //   message.success("模拟新增成功")
-  //   getList()
-  // }).catch(err => {
-  //
-  // })
-};
 
 const confirmDelete = (record: any) => {
   console.log('delete', record);

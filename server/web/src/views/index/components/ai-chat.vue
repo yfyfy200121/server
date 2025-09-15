@@ -52,9 +52,7 @@
           :key="index" 
           :class="['message', message.type]"
         >
-          <div class="message-content">
-            {{ message.content }}
-          </div>
+          <div class="message-content" v-html="formatContent(message.content)"></div>
           <div class="message-time">{{ formatTime(message.timestamp) }}</div>
         </div>
       </div>
@@ -204,6 +202,11 @@ export default {
       return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
     }
     
+    // 格式化内容，将\n替换为<br>
+    const formatContent = (content) => {
+      return content.replace(/\n/g, '<br>')
+    }
+
     // 滚动到底部
     const scrollToBottom = () => {
       nextTick(() => {
@@ -229,7 +232,8 @@ export default {
       minimizeChat,
       closeChat,
       sendMessage,
-      formatTime
+      formatTime,
+      formatContent
     }
   }
 }
