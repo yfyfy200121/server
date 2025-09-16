@@ -45,10 +45,7 @@
           <img :src="AddressIconImage">
           <span>地址管理</span>
         </div>
-        <div class="mine-item flex-view" @click="clickMenu('scoreView')">
-          <img :src="PointIconImage">
-          <span>我的积分</span>
-        </div>
+        <!-- 我的积分 已移除 -->
       </div>
     </div>
     <div class="setting-box">
@@ -80,7 +77,7 @@ import AvatarImg from '/@/assets/images/avatar.jpg'
 import MyOrderImg from '/@/assets/images/order-icon.svg'
 import CommentIconImg from '/@/assets/images/order-thing-icon.svg'
 import AddressIconImage from '/@/assets/images/order-address-icon.svg'
-import PointIconImage from '/@/assets/images/order-point-icon.svg'
+// PointIconImage 已移除（积分功能删除）
 import SettingIconImage from '/@/assets/images/setting-icon.svg'
 import SafeIconImage from '/@/assets/images/setting-safe-icon.svg'
 import PushIconImage from '/@/assets/images/setting-push-icon.svg'

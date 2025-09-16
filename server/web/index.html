@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>网站演示</title>
+    <script>
+      // 如果没有 hash，则自动跳转到默认 hash 路由，保证根路径显示首页
+      if (!location.hash || location.hash === '#') {
+        location.replace('#/index/portal')
+      }
+    </script>
       <link rel="stylesheet" href="./src/styles/antd.min.css">
       <script src="./src/styles/echarts.min.js"></script>
   </head>

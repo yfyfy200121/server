@@ -2,14 +2,8 @@
 const constantRouterMap = [
   // ************* 前台路由 **************
   {
-    path: '/',
-    redirect: '/index'
-  },
-  {
     path: '/index',
-    name: 'index',
     redirect: '/index/portal',
-    component: () => import('/@/views/index/index.vue'),
     children: [
       {
         path: 'login',
@@ -73,11 +67,6 @@ const constantRouterMap = [
             component: () => import('/@/views/index/user/order-view.vue')
           },
           {
-            path: 'orderView',
-            name: 'orderView',
-            component: () => import('/@/views/index/user/order-view.vue')
-          },
-          {
             path: 'userInfoEditView',
             name: 'userInfoEditView',
             component: () => import('/@/views/index/user/userinfo-edit-view.vue')
@@ -91,11 +80,6 @@ const constantRouterMap = [
             path: 'fansView',
             name: 'fansView',
             component: () => import('/@/views/index/user/fans-view.vue')
-          },
-          {
-            path: 'scoreView',
-            name: 'scoreView',
-            component: () => import('/@/views/index/user/score-view.vue')
           },
           {
             path: 'commentView',
@@ -116,7 +100,7 @@ const constantRouterMap = [
             path: 'messageView',
             name: 'messageView',
             component: () => import('/@/views/index/user/message-view.vue')
-          },
+          }
         ]
       }
     ]
@@ -124,7 +108,7 @@ const constantRouterMap = [
   {
     path: '/adminLogin',
     name: 'adminLogin',
-    component: () => import('/@/views/admin/admin-login.vue'),
+    component: () => import('/@/views/admin/admin-login.vue')
   },
   {
     path: '/admin',
@@ -144,9 +128,9 @@ const constantRouterMap = [
       { path: 'loginLog', name: 'loginLog', component: () => import('/@/views/admin/login-log.vue') },
       { path: 'opLog', name: 'opLog', component: () => import('/@/views/admin/op-log.vue') },
       { path: 'errorLog', name: 'errorLog', component: () => import('/@/views/admin/error-log.vue') },
-      { path: 'sysInfo', name: 'sysInfo', component: () => import('/@/views/admin/sys-info.vue') },
+      { path: 'sysInfo', name: 'sysInfo', component: () => import('/@/views/admin/sys-info.vue') }
     ]
-  },
+  }
 ];
 
 export default constantRouterMap;
