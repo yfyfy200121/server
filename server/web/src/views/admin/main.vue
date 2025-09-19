@@ -41,6 +41,10 @@
             <comment-outlined/>
             <span>评论管理</span>
           </a-menu-item>
+          <a-menu-item key="complaint">
+            <customer-service-outlined/>
+            <span>投诉管理</span>
+          </a-menu-item>
           <a-sub-menu>
             <template #icon>
               <folder-outlined/>
@@ -92,6 +96,7 @@ import {
   FolderOutlined,
   UserOutlined,
   CommentOutlined,
+  CustomerServiceOutlined,
   InfoCircleOutlined,
   TagOutlined,
   PieChartOutlined,

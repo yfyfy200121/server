@@ -100,6 +100,11 @@ const constantRouterMap = [
             path: 'messageView',
             name: 'messageView',
             component: () => import('/@/views/index/user/message-view.vue')
+          },
+          {
+            path: 'complaintView',
+            name: 'complaintView',
+            component: () => import('/@/views/index/user/complaint-view.vue')
           }
         ]
       }
@@ -120,6 +125,7 @@ const constantRouterMap = [
       { path: 'order', name: 'order', component: () => import('/@/views/admin/order.vue') },
       { path: 'thing', name: 'thing', component: () => import('/@/views/admin/thing.vue') },
       { path: 'comment', name: 'comment', component: () => import('/@/views/admin/comment.vue') },
+      { path: 'complaint', name: 'complaint', component: () => import('/@/views/admin/complaint.vue') },
       { path: 'user', name: 'user', component: () => import('/@/views/admin/user.vue') },
       { path: 'classification', name: 'classification', component: () => import('/@/views/admin/classification.vue') },
       { path: 'tag', name: 'tag', component: () => import('/@/views/admin/tag.vue') },

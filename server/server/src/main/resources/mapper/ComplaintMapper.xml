@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gk.study.mapper.ComplaintMapper">
+
+    <select id="getList" resultType="com.gk.study.entity.Complaint">
+        select A.*, B.username, C.title as thing_title, D.order_number, E.username as admin_name
+        from b_complaint as A
+        left join b_user as B on (A.user_id=B.id)
+        left join b_thing as C on (A.thing_id=C.id)
+        left join b_order as D on (A.order_id=D.id)
+        left join b_user as E on (A.admin_id=E.id)
+        order by A.create_time desc;
+    </select>
+
+    <select id="selectUserComplaintList" parameterType="String" resultType="com.gk.study.entity.Complaint">
+        select A.*, B.username, C.title as thing_title, D.order_number, E.username as admin_name
+        from b_complaint as A
+        left join b_user as B on (A.user_id=B.id)
+        left join b_thing as C on (A.thing_id=C.id)
+        left join b_order as D on (A.order_id=D.id)
+        left join b_user as E on (A.admin_id=E.id)
+        where A.user_id=#{userId}
+        order by A.create_time desc;
+    </select>
+
+    <select id="selectByStatus" parameterType="String" resultType="com.gk.study.entity.Complaint">
+        select A.*, B.username, C.title as thing_title, D.order_number, E.username as admin_name
+        from b_complaint as A
+        left join b_user as B on (A.user_id=B.id)
+        left join b_thing as C on (A.thing_id=C.id)
+        left join b_order as D on (A.order_id=D.id)
+        left join b_user as E on (A.admin_id=E.id)
+        where A.status=#{status}
+        order by A.create_time desc;
+    </select>
+
+    <select id="selectByType" parameterType="String" resultType="com.gk.study.entity.Complaint">
+        select A.*, B.username, C.title as thing_title, D.order_number, E.username as admin_name
+        from b_complaint as A
+        left join b_user as B on (A.user_id=B.id)
+        left join b_thing as C on (A.thing_id=C.id)
+        left join b_order as D on (A.order_id=D.id)
+        left join b_user as E on (A.admin_id=E.id)
+        where A.type=#{type}
+        order by A.create_time desc;
+    </select>
+
+</mapper>
