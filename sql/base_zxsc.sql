@@ -958,4 +958,29 @@ INSERT INTO `b_user` VALUES (2, 'test@163.com', '651cba8ec21a5031306da0e28b74a16
 INSERT INTO `b_user` VALUES (3, 'normal', '651cba8ec21a5031306da0e28b74a164', NULL, '12548585785', NULL, NULL, '1', '0', NULL, NULL, 'e0dfc1727b0203d64d75b4b1eb3feb9b', '1703791280256', NULL, NULL);
 INSERT INTO `b_user` VALUES (4, 'user', '651cba8ec21a5031306da0e28b74a164', NULL, NULL, NULL, NULL, '1', '0', NULL, NULL, 'a9b017c19f6991b3a26b31ae32542764', '1712261298573', NULL, NULL);
 
+-- ----------------------------
+-- Table structure for b_complaint
+-- ----------------------------
+DROP TABLE IF EXISTS `b_complaint`;
+CREATE TABLE `b_complaint`  (
+  `id` bigint(0) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `update_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `user_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `order_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `thing_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `admin_reply` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `admin_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `priority` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of b_complaint
+-- ----------------------------
+
 SET FOREIGN_KEY_CHECKS = 1;

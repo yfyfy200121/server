@@ -45,6 +45,10 @@
           <img :src="AddressIconImage">
           <span>地址管理</span>
         </div>
+        <div class="mine-item flex-view" @click="clickMenu('complaintView')">
+          <img :src="ComplaintIconImage">
+          <span>我的投诉</span>
+        </div>
         <!-- 我的积分 已移除 -->
       </div>
     </div>
@@ -77,6 +81,7 @@ import AvatarImg from '/@/assets/images/avatar.jpg'
 import MyOrderImg from '/@/assets/images/order-icon.svg'
 import CommentIconImg from '/@/assets/images/order-thing-icon.svg'
 import AddressIconImage from '/@/assets/images/order-address-icon.svg'
+import ComplaintIconImage from '/@/assets/images/message-icon.svg'
 // PointIconImage 已移除（积分功能删除）
 import SettingIconImage from '/@/assets/images/setting-icon.svg'
 import SafeIconImage from '/@/assets/images/setting-safe-icon.svg'
