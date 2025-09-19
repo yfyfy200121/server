@@ -1,4 +1,6 @@
-del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"del "C:\Users\11568\OneDrive\Graduation project\shop_project\.git\index.lock"## 十一、前后端结构与依赖关系
+# 项目详细技术文档
+
+## 十一、前后端结构与依赖关系
 
 ### 11.1 后端文件结构
 ```
