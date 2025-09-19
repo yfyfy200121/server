@@ -55,12 +55,24 @@
           <div class="message-content" v-html="formatContent(message.content)"></div>
           <div class="message-time">{{ formatTime(message.timestamp) }}</div>
         </div>
+        
+        <!-- 推荐商品按钮区域 -->
+        <div v-if="recommendedThings.length > 0" class="recommend-buttons">
+          <div 
+            v-for="(thing, index) in recommendedThings" 
+            :key="index"
+            class="recommend-button"
+            @click="goToDetail(thing.id)"
+          >
+            {{ thing.title }}
+          </div>
+        </div>
       </div>
       
       <div class="chat-input">
         <a-input 
-          v-model:value="inputMessage" 
-          placeholder="请输入消息..." 
+          v-model:value="inputMessage"
+          placeholder="请输入消息..."
           @pressEnter="sendMessage"
           :disabled="loading"
         />
@@ -78,8 +90,9 @@
 </template>
 
 <script>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, computed } from 'vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'AiChat',
@@ -97,6 +110,110 @@ export default {
     const loading = ref(false)
     const unreadCount = ref(0)
     const messagesContainer = ref(null)
+    const router = useRouter()
+    
+    // 从AI回复中提取推荐商品
+    const recommendedThings = computed(() => {
+      const things = [];
+      
+      // 从最新的AI消息中提取商品信息
+      for (let i = messages.value.length - 1; i >= 0; i--) {
+        const message = messages.value[i];
+        if (message.type === 'ai' && message.content) {
+          // 匹配 /detail?id=数字 格式
+          const linkMatches = [...message.content.matchAll(/\/detail\?id=(\d+)/g)];
+          for (const match of linkMatches) {
+            if (match[1]) {
+              // 查找链接附近可能的书名
+              const id = match[1];
+              const startIndex = Math.max(0, match.index - 50);
+              const endIndex = Math.min(message.content.length, match.index + 50);
+              const context = message.content.substring(startIndex, endIndex);
+              
+              // 尝试提取书名
+              const titleMatch = context.match(/《([^《》]+)》/);
+              const title = titleMatch ? titleMatch[1] : `商品 ${id}`;
+              
+              // 避免重复添加
+              if (!things.some(t => t.id === id)) {
+                things.push({
+                  id: id,
+                  title: title
+                });
+              }
+            }
+          }
+          
+          // 匹配书名并查找对应的商品ID（即使没有链接）
+          const bookMatches = [...message.content.matchAll(/《([^《》]+)》/g)];
+          for (const match of bookMatches) {
+            const title = match[1];
+            let id = null;
+            
+            // 根据书名映射ID（基于数据库中实际存在的书籍）
+            if (title.includes('数据结构与算法分析')) {
+              id = 1; // 《数据结构与算法分析》的商品ID为1
+            } else if (title.includes('算法精粹')) {
+              id = 2; // 《算法精粹：经典计算机科学问题的》的商品ID为2
+            } else if (title.includes('C++多线程编程实战')) {
+              id = 3; // 《C++多线程编程实战》的商品ID为3
+            } else if (title.includes('数据结构与算法图解')) {
+              id = 4; // 《数据结构与算法图解》的商品ID为4
+            } else if (title.includes('SQL入门经典')) {
+              id = 5; // 《SQL入门经典》的商品ID为5
+            } else if (title.includes('TC/IP入门经典')) {
+              id = 6; // 《TC/IP入门经典》的商品ID为6
+            } else if (title.includes('计算机网络教程')) {
+              id = 7; // 《计算机网络教程(第4版)》的商品ID为7
+            } else if (title.includes('SQL') || title.includes('数据库')) {
+              // 为其他SQL和数据库相关书籍分配ID范围 8-15
+              // 这里使用简单的哈希方法为不同书籍生成不同的ID
+              const hash = Array.from(title).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              id = 8 + (hash % 8); // 生成8-15之间的ID
+            } else if (title.includes('Java')) {
+              // 为Java相关书籍分配ID范围 16-25
+              const hash = Array.from(title).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              id = 16 + (hash % 10); // 生成16-25之间的ID
+            } else if (title.includes('Python')) {
+              // 为Python相关书籍分配ID范围 26-35
+              const hash = Array.from(title).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              id = 26 + (hash % 10); // 生成26-35之间的ID
+            } else if (title.includes('编程') || title.includes('程序设计')) {
+              // 为通用编程书籍分配ID范围 36-45
+              const hash = Array.from(title).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              id = 36 + (hash % 10); // 生成36-45之间的ID
+            } else {
+              // 为其他书籍分配ID范围 46-50
+              const hash = Array.from(title).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              id = 46 + (hash % 5); // 生成46-50之间的ID
+            }
+            
+            // 确保ID是数字类型
+            id = parseInt(id);
+            
+            if (id && !things.some(t => t.id === id)) {
+              things.push({
+                id: id,
+                title: title
+              });
+            }
+          }
+          
+          // 如果已经找到推荐商品，就跳出循环
+          if (things.length > 0) {
+            break;
+          }
+        }
+      }
+      
+      return things;
+    });
+    
+    // 跳转到商品详情页
+    const goToDetail = (id) => {
+      // 使用vue-router跳转到商品详情页
+      router.push(`/index/detail?id=${id}`);
+    };
     
     // 切换聊天窗口显示状态
     const toggleChatWindow = () => {
@@ -204,7 +321,10 @@ export default {
     
     // 格式化内容，将\n替换为<br>
     const formatContent = (content) => {
-      return content.replace(/\n/g, '<br>')
+      // 将 /detail?id=数字 格式的文本转换为可点击链接
+      let formatted = content.replace(/\n/g, '<br>');
+      formatted = formatted.replace(/\/detail\?id=(\d+)/g, '<a href="/index/detail?id=$1" target="_blank">查看商品详情</a>');
+      return formatted;
     }
 
     // 滚动到底部
@@ -228,6 +348,8 @@ export default {
       loading,
       unreadCount,
       messagesContainer,
+      recommendedThings,
+      goToDetail,
       toggleChatWindow,
       minimizeChat,
       closeChat,
@@ -349,6 +471,21 @@ export default {
       border-radius: 6px;
       max-width: 80%;
       word-wrap: break-word;
+      
+      // 确保链接样式正确显示
+      a {
+        color: #1890ff;
+        text-decoration: none;
+        border: 1px solid #1890ff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+        
+        &:hover {
+          text-decoration: underline;
+          background-color: #f0f8ff;
+        }
+      }
     }
     
     .message-time {
@@ -381,6 +518,39 @@ export default {
       .message-content {
         background: #fff7e6;
         border-color: #ffd591;
+      }
+    }
+  }
+  
+  .recommend-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #e8e8e8;
+    max-width: 100%;
+    
+    .recommend-button {
+      background: #1890ff;
+      color: white;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 1px solid #1890ff;
+      flex: 1 1 auto;
+      min-width: 120px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      
+      &:hover {
+        background: #40a9ff;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       }
     }
   }
