@@ -1,5 +1,29 @@
 # 基于SpringBoot的智能书城管理系统 - 论文写作完整指南
 
+## 摘要
+
+随着互联网技术的快速发展和人工智能的普及应用，传统图书销售模式正面临数字化转型的迫切需求。本文设计并实现了一个基于SpringBoot的智能书城管理系统，采用前后端分离的现代化架构，融合了人工智能技术以提升用户购书体验。
+
+系统后端采用SpringBoot框架构建RESTful API服务，使用MyBatis-Plus进行数据持久化操作，MySQL作为主数据库存储用户、商品、订单等核心业务数据，Redis作为缓存层提升系统响应性能。前端基于Vue3框架开发，使用Ant Design Vue组件库构建现代化用户界面，通过Axios实现与后端的数据交互。
+
+系统的核心创新点在于集成了火山引擎DeepSeek V3大语言模型，实现了智能客服功能，能够为用户提供24小时在线商品咨询服务。同时，系统具备完整的电商功能模块，包括用户注册登录、商品浏览搜索、购物车管理、订单处理、评论反馈等。此外，系统还实现了基于用户行为分析的商品推荐算法，提升了购物体验的个性化水平。
+
+经过功能测试和性能测试验证，系统运行稳定，用户界面友好，AI客服响应准确，满足了现代电子商务平台的基本需求。本系统为智能化电商平台的建设提供了技术参考和实践经验。
+
+**关键词**: SpringBoot; 智能书城; 人工智能; 前后端分离; 电子商务
+
+## Abstract
+
+With the rapid development of Internet technology and the widespread application of artificial intelligence, traditional book sales models are facing urgent needs for digital transformation. This paper designs and implements an intelligent bookstore management system based on SpringBoot, adopting a modern front-end and back-end separated architecture that integrates artificial intelligence technology to enhance the user book purchasing experience.
+
+The system backend uses the SpringBoot framework to build RESTful API services, employs MyBatis-Plus for data persistence operations, uses MySQL as the main database to store core business data such as users, products, and orders, and utilizes Redis as a cache layer to improve system response performance. The frontend is developed based on the Vue3 framework, uses the Ant Design Vue component library to build a modern user interface, and implements data interaction with the backend through Axios.
+
+The core innovation of the system lies in the integration of the Volcano Engine DeepSeek V3 large language model, implementing intelligent customer service functionality that can provide users with 24-hour online product consultation services. Meanwhile, the system features complete e-commerce functional modules, including user registration and login, product browsing and searching, shopping cart management, order processing, and comment feedback. Additionally, the system implements a product recommendation algorithm based on user behavior analysis, enhancing the personalization level of the shopping experience.
+
+Through functional testing and performance testing verification, the system operates stably with a user-friendly interface and accurate AI customer service responses, meeting the basic requirements of modern e-commerce platforms. This system provides technical reference and practical experience for the construction of intelligent e-commerce platforms.
+
+**Keywords**: SpringBoot; Intelligent Bookstore; Artificial Intelligence; Front-end and Back-end Separation; E-commerce
+
 ## 一、论文总体规划
 
 ### 1.1 论文基本信息
