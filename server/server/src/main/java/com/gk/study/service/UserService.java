@@ -4,6 +4,7 @@ package com.gk.study.service;
 import com.gk.study.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     List<User> getUserList(String keyword);
@@ -18,4 +19,14 @@ public interface UserService {
     User getUserByUserName(String username);
 
     User getUserDetail(String userId);
+    
+    /**
+     * 根据邮箱获取用户
+     */
+    User getUserByEmail(String email);
+    
+    /**
+     * 获取用户统计信息
+     */
+    Map<String, Object> getUserStatistics(String userId);
 }

@@ -44,5 +44,8 @@ public class Order implements Serializable {
     public String cover; // 商品封面
     @TableField(exist = false)
     public String price; // 商品价格
+    
+    @TableField(exist = false)
+    public Thing thing; // 商品详情对象
 
 }

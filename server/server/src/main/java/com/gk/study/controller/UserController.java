@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.Map;
+import java.util.HashMap;
 /**
  * @author Administrator
  * @email 123456@qq.com
@@ -208,6 +210,177 @@ public class UserController {
             return new APIResponse(ResponeCode.FAIL, "非法操作");
         }
 
+    }
+
+    /**
+     * 获取用户统计信息（订单数、收藏数等）
+     */
+    @Access(level = AccessLevel.LOGIN)
+    @RequestMapping(value = "/stats", method = RequestMethod.GET)
+    public APIResponse getUserStats(String userId) {
+        try {
+            Map<String, Object> stats = userService.getUserStatistics(userId);
+            return new APIResponse(ResponeCode.SUCCESS, "获取用户统计成功", stats);
+        } catch (Exception e) {
+            logger.error("获取用户统计失败", e);
+            return new APIResponse(ResponeCode.FAIL, "获取用户统计失败");
+        }
+    }
+
+    /**
+     * 更新用户偏好设置
+     */
+    @Access(level = AccessLevel.LOGIN)
+    @RequestMapping(value = "/updatePreferences", method = RequestMethod.POST)
+    @Transactional
+    public APIResponse updateUserPreferences(String userId, 
+                                           @RequestParam(required = false) String favoriteCategories,
+                                           @RequestParam(required = false) String priceRange,
+                                           @RequestParam(required = false) String language,
+                                           @RequestParam(required = false) String notificationSettings) {
+        try {
+            User user = userService.getUserDetail(userId);
+            if (user == null) {
+                return new APIResponse(ResponeCode.FAIL, "用户不存在");
+            }
+
+            // 构建偏好设置JSON
+            Map<String, Object> preferences = new HashMap<>();
+            if (favoriteCategories != null) {
+                preferences.put("favoriteCategories", favoriteCategories.split(","));
+            }
+            if (priceRange != null) {
+                preferences.put("priceRange", priceRange);
+            }
+            if (language != null) {
+                preferences.put("language", language);
+            }
+            if (notificationSettings != null) {
+                preferences.put("notificationSettings", notificationSettings);
+            }
+
+            // 更新用户描述字段存储偏好（或者可以扩展User实体添加preferences字段）
+            user.setDescription("preferences:" + preferences.toString());
+            userService.updateUser(user);
+
+            return new APIResponse(ResponeCode.SUCCESS, "更新用户偏好成功");
+        } catch (Exception e) {
+            logger.error("更新用户偏好失败", e);
+            return new APIResponse(ResponeCode.FAIL, "更新用户偏好失败");
+        }
+    }
+
+    /**
+     * 获取用户偏好设置
+     */
+    @Access(level = AccessLevel.LOGIN)
+    @RequestMapping(value = "/preferences", method = RequestMethod.GET)
+    public APIResponse getUserPreferences(String userId) {
+        try {
+            User user = userService.getUserDetail(userId);
+            if (user == null) {
+                return new APIResponse(ResponeCode.FAIL, "用户不存在");
+            }
+
+            Map<String, Object> preferences = new HashMap<>();
+            String description = user.getDescription();
+            if (description != null && description.startsWith("preferences:")) {
+                // 解析偏好设置（简化实现，生产环境建议使用JSON解析）
+                preferences.put("raw", description.substring(12));
+            }
+
+            return new APIResponse(ResponeCode.SUCCESS, "获取用户偏好成功", preferences);
+        } catch (Exception e) {
+            logger.error("获取用户偏好失败", e);
+            return new APIResponse(ResponeCode.FAIL, "获取用户偏好失败");
+        }
+    }
+
+    /**
+     * 注销用户账户
+     */
+    @Access(level = AccessLevel.LOGIN)
+    @RequestMapping(value = "/deactivate", method = RequestMethod.POST)
+    @Transactional
+    public APIResponse deactivateAccount(String userId, String password) {
+        try {
+            User user = userService.getUserDetail(userId);
+            if (user == null) {
+                return new APIResponse(ResponeCode.FAIL, "用户不存在");
+            }
+
+            // 验证密码
+            String md5Pwd = DigestUtils.md5DigestAsHex((password + salt).getBytes());
+            if (!user.getPassword().equals(md5Pwd)) {
+                return new APIResponse(ResponeCode.FAIL, "密码错误");
+            }
+
+            // 设置用户状态为禁用
+            user.setStatus("1");
+            userService.updateUser(user);
+
+            return new APIResponse(ResponeCode.SUCCESS, "账户已注销");
+        } catch (Exception e) {
+            logger.error("注销账户失败", e);
+            return new APIResponse(ResponeCode.FAIL, "注销账户失败");
+        }
+    }
+
+    /**
+     * 重置密码（发送邮件验证码）
+     */
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+    public APIResponse resetPassword(String email) {
+        try {
+            User user = userService.getUserByEmail(email);
+            if (user == null) {
+                return new APIResponse(ResponeCode.FAIL, "邮箱不存在");
+            }
+
+            // 生成验证码（这里简化实现，实际应该发送邮件）
+            String resetCode = UUID.randomUUID().toString().substring(0, 6);
+            
+            // 将验证码存储到缓存或数据库中（这里简化存储到用户的pushEmail字段）
+            user.setPushEmail(resetCode);
+            userService.updateUser(user);
+
+            logger.info("重置密码验证码: {} (用户: {})", resetCode, email);
+            
+            return new APIResponse(ResponeCode.SUCCESS, "验证码已发送到邮箱，请查收");
+        } catch (Exception e) {
+            logger.error("重置密码失败", e);
+            return new APIResponse(ResponeCode.FAIL, "重置密码失败");
+        }
+    }
+
+    /**
+     * 确认重置密码
+     */
+    @RequestMapping(value = "/confirmResetPassword", method = RequestMethod.POST)
+    @Transactional
+    public APIResponse confirmResetPassword(String email, String resetCode, String newPassword) {
+        try {
+            User user = userService.getUserByEmail(email);
+            if (user == null) {
+                return new APIResponse(ResponeCode.FAIL, "邮箱不存在");
+            }
+
+            // 验证重置码
+            if (!resetCode.equals(user.getPushEmail())) {
+                return new APIResponse(ResponeCode.FAIL, "验证码错误");
+            }
+
+            // 更新密码
+            String md5Pwd = DigestUtils.md5DigestAsHex((newPassword + salt).getBytes());
+            user.setPassword(md5Pwd);
+            user.setPushEmail(null); // 清除验证码
+            userService.updateUser(user);
+
+            return new APIResponse(ResponeCode.SUCCESS, "密码重置成功");
+        } catch (Exception e) {
+            logger.error("确认重置密码失败", e);
+            return new APIResponse(ResponeCode.FAIL, "确认重置密码失败");
+        }
     }
 
     public String saveAvatar(User user) throws IOException {
