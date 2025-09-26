@@ -1,0 +1,139 @@
+2025-09-19 00:20:09.289 [ HikariPool-1 housekeeper ] - [ WARN  ] [ com.zaxxer.hikari.pool.HikariPool : 788 ] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h8m12s820ms218µs100ns).
+2025-09-19 00:20:11.506 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 给个链接, sessionId: 
+2025-09-19 00:20:11.506 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 52 ] - Refreshing thing cache
+2025-09-19 00:20:11.539 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 给个链接
+2025-09-19 00:20:14.615 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 00:20:14.616 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 00:20:28.842 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构, sessionId: 
+2025-09-19 00:20:28.842 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构
+2025-09-19 00:20:35.393 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 00:20:35.393 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 00:20:44.644 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2025-09-19 00:20:44.648 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
+2025-09-19 14:09:00.405 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 55 ] - Starting MySpringApplication using Java 1.8.0_192 on yfyfyfmini with PID 25024 (C:\Users\11568\OneDrive\Graduation project\shop_project\server\server\target\classes started by 11568 in C:\Users\11568\OneDrive\Graduation project\shop_project\server)
+2025-09-19 14:09:00.409 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 659 ] - No active profile set, falling back to default profiles: default
+2025-09-19 14:09:01.308 [ main ] - [ INFO  ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] - Initializing ProtocolHandler ["http-nio-9100"]
+2025-09-19 14:09:01.309 [ main ] - [ INFO  ] [ org.apache.catalina.core.StandardService : 173 ] - Starting service [Tomcat]
+2025-09-19 14:09:01.309 [ main ] - [ INFO  ] [ org.apache.catalina.core.StandardEngine : 173 ] - Starting Servlet engine: [Apache Tomcat/9.0.53]
+2025-09-19 14:09:01.357 [ main ] - [ INFO  ] [ o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] : 173 ] - Initializing Spring embedded WebApplicationContext
+2025-09-19 14:09:01.621 [ main ] - [ WARN  ] [ c.b.mybatisplus.core.injector.DefaultSqlInjector : 56 ] - class java.lang.Object ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2025-09-19 14:09:02.709 [ main ] - [ INFO  ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] - Starting ProtocolHandler ["http-nio-9100"]
+2025-09-19 14:09:02.726 [ main ] - [ INFO  ] [ o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] : 173 ] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-19 14:09:02.742 [ main ] - [ INFO  ] [ com.gk.study.MySpringApplication : 61 ] - Started MySpringApplication in 2.668 seconds (JVM running for 3.319)
+2025-09-19 14:10:17.789 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2025-09-19 14:10:17.880 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2025-09-19 14:10:40.165 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构, sessionId: 
+2025-09-19 14:10:40.167 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 52 ] - Refreshing thing cache
+2025-09-19 14:10:40.193 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构
+2025-09-19 14:10:50.545 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 14:10:50.545 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 14:29:56.356 [ HikariPool-1 housekeeper ] - [ WARN  ] [ com.zaxxer.hikari.pool.HikariPool : 788 ] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m38s114ms562µs900ns).
+2025-09-19 14:30:51.443 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构, sessionId: 
+2025-09-19 14:30:51.444 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 52 ] - Refreshing thing cache
+2025-09-19 14:30:51.471 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构
+2025-09-19 14:31:00.582 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 14:31:00.582 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 14:48:17.138 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构, sessionId: 
+2025-09-19 14:48:17.139 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 52 ] - Refreshing thing cache
+2025-09-19 14:48:17.165 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构
+2025-09-19 14:48:27.452 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 14:48:27.452 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 14:56:28.710 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构, sessionId: 
+2025-09-19 14:56:28.710 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 52 ] - Refreshing thing cache
+2025-09-19 14:56:28.732 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构
+2025-09-19 14:56:37.469 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 14:56:37.469 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:00:42.192 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我想要数据结构, sessionId: 
+2025-09-19 15:00:42.195 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我想要数据结构
+2025-09-19 15:00:48.903 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:00:48.904 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:03:39.161 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构, sessionId: 
+2025-09-19 15:03:39.163 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 52 ] - Refreshing thing cache
+2025-09-19 15:03:39.181 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构
+2025-09-19 15:03:46.515 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:03:46.516 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:20:39.403 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构, sessionId: 
+2025-09-19 15:20:39.403 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 52 ] - Refreshing thing cache
+2025-09-19 15:20:39.423 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构
+2025-09-19 15:20:47.573 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:20:47.574 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:21:39.753 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 商品链接, sessionId: 
+2025-09-19 15:21:39.755 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 商品链接
+2025-09-19 15:21:43.413 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:21:43.414 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:24:13.591 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 给些商品链接, sessionId: 
+2025-09-19 15:24:13.592 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 给些商品链接
+2025-09-19 15:24:18.811 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:24:18.812 [ http-nio-9100-exec-2 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:24:32.937 [ http-nio-9100-exec-10 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学c++, sessionId: 
+2025-09-19 15:24:32.939 [ http-nio-9100-exec-10 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学c++
+2025-09-19 15:24:41.684 [ http-nio-9100-exec-10 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:24:41.684 [ http-nio-9100-exec-10 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:39:55.668 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构, sessionId: 
+2025-09-19 15:39:55.668 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 52 ] - Refreshing thing cache
+2025-09-19 15:39:55.685 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构
+2025-09-19 15:40:03.947 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:40:03.949 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:40:17.117 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学tc, sessionId: 
+2025-09-19 15:40:17.124 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学tc
+2025-09-19 15:40:25.307 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:40:25.307 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:40:39.991 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学sql, sessionId: 
+2025-09-19 15:40:39.995 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学sql
+2025-09-19 15:40:46.923 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:40:46.925 [ http-nio-9100-exec-4 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:41:03.716 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学sql, sessionId: 
+2025-09-19 15:41:03.723 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学sql
+2025-09-19 15:41:10.469 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:41:10.470 [ http-nio-9100-exec-1 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:41:25.738 [ http-nio-9100-exec-10 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构, sessionId: 
+2025-09-19 15:41:25.745 [ http-nio-9100-exec-10 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构
+2025-09-19 15:41:34.290 [ http-nio-9100-exec-10 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:41:34.290 [ http-nio-9100-exec-10 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:43:21.303 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学sql, sessionId: 
+2025-09-19 15:43:21.306 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学sql
+2025-09-19 15:43:27.183 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:43:27.183 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:43:42.537 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学算法, sessionId: 
+2025-09-19 15:43:42.542 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学算法
+2025-09-19 15:43:51.589 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:43:51.589 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:44:05.999 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学算法, sessionId: 
+2025-09-19 15:44:06.001 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学算法
+2025-09-19 15:44:13.708 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:44:13.708 [ http-nio-9100-exec-3 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 15:44:31.899 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学sql, sessionId: 
+2025-09-19 15:44:31.901 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学sql
+2025-09-19 15:44:38.192 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 15:44:38.193 [ http-nio-9100-exec-5 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 16:04:31.105 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学数据结构与算法, sessionId: 
+2025-09-19 16:04:31.106 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 52 ] - Refreshing thing cache
+2025-09-19 16:04:31.120 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学数据结构与算法
+2025-09-19 16:04:38.535 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 16:04:38.536 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 16:05:53.666 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学sql, sessionId: 
+2025-09-19 16:05:53.668 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学sql
+2025-09-19 16:06:02.185 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 16:06:02.185 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 16:06:25.726 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学习c++, sessionId: 
+2025-09-19 16:06:25.730 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学习c++
+2025-09-19 16:06:32.368 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 16:06:32.368 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 16:06:50.657 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学习c++, sessionId: 
+2025-09-19 16:06:50.659 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学习c++
+2025-09-19 16:06:57.831 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 16:06:57.831 [ http-nio-9100-exec-8 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 16:07:30.374 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学习sql, sessionId: 
+2025-09-19 16:07:30.376 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学习sql
+2025-09-19 16:07:37.091 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 16:07:37.091 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 16:07:58.103 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 我要学习数据结构, sessionId: 
+2025-09-19 16:07:58.107 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 我要学习数据结构
+2025-09-19 16:08:06.181 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 16:08:06.182 [ http-nio-9100-exec-9 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 16:08:32.032 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 108 ] - AI chat request received - message: 列出商品链接, sessionId: 
+2025-09-19 16:08:32.037 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 158 ] - Sending request to AI service with message: 列出商品链接
+2025-09-19 16:08:35.786 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 167 ] - Received response from AI service with status: 200 OK
+2025-09-19 16:08:35.786 [ http-nio-9100-exec-6 ] - [ INFO  ] [ com.gk.study.controller.AiChatController : 195 ] - Successfully processed AI response
+2025-09-19 16:11:02.064 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2025-09-19 16:11:02.067 [ SpringApplicationShutdownHook ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
