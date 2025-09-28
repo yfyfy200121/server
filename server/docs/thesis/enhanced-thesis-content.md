@@ -492,84 +492,177 @@ Redis是一个高性能的key-value数据库，常用作缓存中间件：
 
 #### 4.2.2 表结构设计
 
-**用户表(b_user)**
+**用户表(user)**
 ```sql
-CREATE TABLE `b_user` (
+CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `username` varchar(50) NOT NULL COMMENT '用户名',
   `password` varchar(100) NOT NULL COMMENT '密码',
   `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
-  `mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
+  `phone` varchar(20) DEFAULT NULL COMMENT '手机号',
   `avatar` varchar(200) DEFAULT NULL COMMENT '头像',
   `nickname` varchar(50) DEFAULT NULL COMMENT '昵称',
-  `role` varchar(10) DEFAULT '2' COMMENT '角色：1-管理员，2-用户',
-  `status` varchar(2) DEFAULT '0' COMMENT '状态：0-正常，1-禁用',
-  `createTime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `gender` tinyint DEFAULT '0' COMMENT '性别：0-未知，1-男，2-女',
+  `birthday` date DEFAULT NULL COMMENT '生日',
+  `status` tinyint DEFAULT '1' COMMENT '状态：0-禁用，1-启用',
+  `role` varchar(20) DEFAULT 'USER' COMMENT '角色：USER-用户，ADMIN-管理员',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_username` (`username`),
   KEY `idx_email` (`email`),
-  KEY `idx_mobile` (`mobile`)
+  KEY `idx_phone` (`phone`)
 );
 ```
 
-**商品分类表(b_classification)**
+**商品分类表(category)**
 ```sql
-CREATE TABLE `b_classification` (
+CREATE TABLE `category` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '分类ID',
-  `title` varchar(100) NOT NULL COMMENT '分类名称',
-  `cover` varchar(200) DEFAULT NULL COMMENT '分类图片',
+  `name` varchar(50) NOT NULL COMMENT '分类名称',
   `description` text COMMENT '分类描述',
-  `status` varchar(2) DEFAULT '0' COMMENT '状态：0-正常，1-禁用',
-  `createTime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `parentId` bigint DEFAULT '0' COMMENT '父分类ID',
+  `level` tinyint DEFAULT '1' COMMENT '分类级别',
+  `sort` int DEFAULT '0' COMMENT '排序',
+  `status` tinyint DEFAULT '1' COMMENT '状态：0-禁用，1-启用',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_title` (`title`)
+  KEY `idx_parent_id` (`parentId`),
+  KEY `idx_level` (`level`)
 );
 ```
 
-**商品表(b_thing)**
+**商品表(product)**
 ```sql
-CREATE TABLE `b_thing` (
+CREATE TABLE `product` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '商品ID',
   `title` varchar(200) NOT NULL COMMENT '商品标题',
-  `cover` varchar(200) DEFAULT NULL COMMENT '封面图片',
   `description` text COMMENT '商品描述',
-  `price` varchar(20) DEFAULT NULL COMMENT '价格',
-  `status` varchar(2) DEFAULT '0' COMMENT '状态：0-上架，1-下架',
-  `createTime` varchar(20) DEFAULT NULL COMMENT '创建时间',
-  `repertory` varchar(20) DEFAULT '0' COMMENT '库存',
-  `pv` varchar(20) DEFAULT '0' COMMENT '浏览量',
-  `recommendCount` varchar(20) DEFAULT '0' COMMENT '推荐数',
-  `wishCount` varchar(20) DEFAULT '0' COMMENT '点赞数',
-  `collectCount` varchar(20) DEFAULT '0' COMMENT '收藏数',
-  `classificationId` bigint DEFAULT NULL COMMENT '分类ID',
-  `userId` bigint DEFAULT NULL COMMENT '创建用户ID',
+  `cover` varchar(200) DEFAULT NULL COMMENT '封面图片',
+  `images` text COMMENT '商品图片(JSON数组)',
+  `author` varchar(100) DEFAULT NULL COMMENT '作者',
+  `publisher` varchar(100) DEFAULT NULL COMMENT '出版社',
+  `isbn` varchar(20) DEFAULT NULL COMMENT 'ISBN号',
+  `price` decimal(10,2) NOT NULL COMMENT '价格',
+  `originalPrice` decimal(10,2) DEFAULT NULL COMMENT '原价',
+  `stock` int DEFAULT '0' COMMENT '库存',
+  `sales` int DEFAULT '0' COMMENT '销量',
+  `categoryId` bigint NOT NULL COMMENT '分类ID',
+  `tags` varchar(200) DEFAULT NULL COMMENT '标签',
+  `status` tinyint DEFAULT '1' COMMENT '状态：0-下架，1-上架',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_classification_id` (`classificationId`),
+  KEY `idx_category_id` (`categoryId`),
   KEY `idx_status` (`status`),
-  KEY `idx_title` (`title`),
+  KEY `idx_price` (`price`),
   FULLTEXT KEY `ft_title_description` (`title`,`description`)
 );
 ```
 
-**订单表(b_order)**
+**订单表(order)**
 ```sql
-CREATE TABLE `b_order` (
+CREATE TABLE `order` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '订单ID',
-  `orderNumber` varchar(32) NOT NULL COMMENT '订单号',
+  `orderNo` varchar(32) NOT NULL COMMENT '订单号',
   `userId` bigint NOT NULL COMMENT '用户ID',
-  `status` varchar(2) DEFAULT '1' COMMENT '订单状态：1-待支付，2-已支付，3-已发货，4-已完成，5-已取消',
-  `amount` varchar(20) DEFAULT NULL COMMENT '订单金额',
-  `payStatus` varchar(2) DEFAULT '0' COMMENT '支付状态：0-未支付，1-已支付',
-  `payTime` varchar(20) DEFAULT NULL COMMENT '支付时间',
-  `createTime` varchar(20) DEFAULT NULL COMMENT '创建时间',
-  `receiverName` varchar(100) DEFAULT NULL COMMENT '收货人姓名',
-  `receiverAddress` varchar(500) DEFAULT NULL COMMENT '收货地址',
-  `receiverPhone` varchar(20) DEFAULT NULL COMMENT '收货人电话',
+  `totalAmount` decimal(10,2) NOT NULL COMMENT '订单总金额',
+  `payAmount` decimal(10,2) NOT NULL COMMENT '实付金额',
+  `status` tinyint DEFAULT '1' COMMENT '订单状态：1-待支付，2-已支付，3-已发货，4-已完成，5-已取消',
+  `payType` tinyint DEFAULT NULL COMMENT '支付方式：1-支付宝，2-微信，3-银行卡',
+  `payTime` datetime DEFAULT NULL COMMENT '支付时间',
+  `deliveryTime` datetime DEFAULT NULL COMMENT '发货时间',
+  `finishTime` datetime DEFAULT NULL COMMENT '完成时间',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_order_number` (`orderNumber`),
+  UNIQUE KEY `uk_order_no` (`orderNo`),
   KEY `idx_user_id` (`userId`),
   KEY `idx_status` (`status`)
+);
+```
+
+**订单详情表(order_item)**
+```sql
+CREATE TABLE `order_item` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '订单项ID',
+  `orderId` bigint NOT NULL COMMENT '订单ID',
+  `productId` bigint NOT NULL COMMENT '商品ID',
+  `productTitle` varchar(200) NOT NULL COMMENT '商品标题',
+  `productCover` varchar(200) DEFAULT NULL COMMENT '商品封面',
+  `price` decimal(10,2) NOT NULL COMMENT '商品价格',
+  `quantity` int NOT NULL COMMENT '购买数量',
+  `totalAmount` decimal(10,2) NOT NULL COMMENT '小计金额',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_order_id` (`orderId`),
+  KEY `idx_product_id` (`productId`)
+);
+```
+
+**购物车表(cart)**
+```sql
+CREATE TABLE `cart` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '购物车ID',
+  `userId` bigint NOT NULL COMMENT '用户ID',
+  `productId` bigint NOT NULL COMMENT '商品ID',
+  `quantity` int NOT NULL DEFAULT '1' COMMENT '数量',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_user_product` (`userId`,`productId`),
+  KEY `idx_user_id` (`userId`)
+);
+```
+
+**收藏表(favorite)**
+```sql
+CREATE TABLE `favorite` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '收藏ID',
+  `userId` bigint NOT NULL COMMENT '用户ID',
+  `productId` bigint NOT NULL COMMENT '商品ID',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_user_product` (`userId`,`productId`),
+  KEY `idx_user_id` (`userId`)
+);
+```
+
+**评价表(review)**
+```sql
+CREATE TABLE `review` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '评价ID',
+  `userId` bigint NOT NULL COMMENT '用户ID',
+  `productId` bigint NOT NULL COMMENT '商品ID',
+  `orderId` bigint NOT NULL COMMENT '订单ID',
+  `rating` tinyint NOT NULL COMMENT '评分：1-5星',
+  `content` text COMMENT '评价内容',
+  `images` text COMMENT '评价图片(JSON数组)',
+  `status` tinyint DEFAULT '1' COMMENT '状态：0-隐藏，1-显示',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`userId`),
+  KEY `idx_product_id` (`productId`),
+  KEY `idx_order_id` (`orderId`)
+);
+```
+
+**AI对话记录表(ai_chat_record)**
+```sql
+CREATE TABLE `ai_chat_record` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '记录ID',
+  `sessionId` varchar(64) NOT NULL COMMENT '会话ID',
+  `userId` bigint DEFAULT NULL COMMENT '用户ID',
+  `userMessage` text NOT NULL COMMENT '用户消息',
+  `aiResponse` text NOT NULL COMMENT 'AI回复',
+  `messageType` tinyint DEFAULT '1' COMMENT '消息类型：1-文本，2-图片',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_session_id` (`sessionId`),
+  KEY `idx_user_id` (`userId`),
+  KEY `idx_create_time` (`createTime`)
 );
 ```
 
@@ -581,12 +674,13 @@ CREATE TABLE `b_order` (
    - 使用名词表示资源，动词表示操作
    - 使用复数形式表示资源集合
    - 使用层级结构表示资源关系
-   - 例如：`GET /api/thing/list` 获取商品列表
+   - 例如：`GET /api/products` 获取商品列表
 
 2. **HTTP方法规范**：
    - GET：获取资源
    - POST：创建资源
    - PUT：更新资源（完整更新）
+   - PATCH：更新资源（部分更新）
    - DELETE：删除资源
 
 3. **状态码规范**：
@@ -602,7 +696,7 @@ CREATE TABLE `b_order` (
 ```json
 {
   "code": 200,
-  "msg": "success",
+  "message": "success",
   "data": {},
   "timestamp": 1640995200000
 }
@@ -612,638 +706,110 @@ CREATE TABLE `b_order` (
 
 **用户管理接口**
 ```
-POST   /api/user/login         用户登录
-POST   /api/user/register      用户注册
-POST   /api/user/logout        用户登出
-GET    /api/user/info          获取用户信息
-POST   /api/user/update        更新用户信息
+POST   /api/auth/register     用户注册
+POST   /api/auth/login        用户登录
+POST   /api/auth/logout       用户登出
+GET    /api/user/profile      获取用户信息
+PUT    /api/user/profile      更新用户信息
+POST   /api/user/avatar       更新用户头像
 ```
 
 **商品管理接口**
 ```
-GET    /api/thing/list         获取商品列表
-GET    /api/thing/detail       获取商品详情
-POST   /api/thing/create       创建商品（管理员）
-POST   /api/thing/update       更新商品（管理员）
-POST   /api/thing/delete       删除商品（管理员）
-GET    /api/classification/list 获取分类列表
+GET    /api/products          获取商品列表
+GET    /api/products/{id}     获取商品详情
+POST   /api/products          创建商品（管理员）
+PUT    /api/products/{id}     更新商品（管理员）
+DELETE /api/products/{id}     删除商品（管理员）
+GET    /api/categories        获取分类列表
+GET    /api/products/search   搜索商品
+```
+
+**购物车接口**
+```
+GET    /api/cart              获取购物车
+POST   /api/cart              添加商品到购物车
+PUT    /api/cart/{id}         更新购物车项
+DELETE /api/cart/{id}         删除购物车项
+DELETE /api/cart              清空购物车
 ```
 
 **订单管理接口**
 ```
-GET    /api/order/list         获取订单列表
-GET    /api/order/detail       获取订单详情
-POST   /api/order/create       创建订单
-POST   /api/order/update       更新订单状态
-POST   /api/order/delete       删除订单
+GET    /api/orders            获取订单列表
+GET    /api/orders/{id}       获取订单详情
+POST   /api/orders            创建订单
+PUT    /api/orders/{id}/pay   支付订单
+PUT    /api/orders/{id}/cancel 取消订单
+PUT    /api/orders/{id}/finish 完成订单
 ```
 
 **AI客服接口**
 ```
-POST   /ai-chat/chat           发送消息给AI客服
+POST   /api/ai/chat           发送消息给AI客服
+GET    /api/ai/chat/history   获取聊天历史
+DELETE /api/ai/chat/session   清除会话记录
 ```
 
-**收藏和点赞接口**
+**收藏接口**
 ```
-GET    /api/thingCollect/list  获取收藏列表
-POST   /api/thingCollect/create 添加收藏
-POST   /api/thingCollect/delete 取消收藏
-POST   /api/thingWish/create    点赞商品
-POST   /api/thingWish/delete    取消点赞
+GET    /api/favorites         获取收藏列表
+POST   /api/favorites         添加收藏
+DELETE /api/favorites/{id}    取消收藏
 ```
 
-## 5 系统实现
+**评价接口**
+```
+GET    /api/reviews           获取评价列表
+POST   /api/reviews           添加评价
+PUT    /api/reviews/{id}      更新评价
+DELETE /api/reviews/{id}      删除评价
+```
 
-### 5.1 前台功能模块实现
+#### 4.3.3 数据传输格式设计
 
-#### 5.1.1 用户认证模块
-
-用户认证模块是系统的基础功能，包括用户注册、登录、登出等功能。系统采用JWT令牌机制进行用户身份验证。
-
-**用户实体类设计**：
-```java
-@Data
-@TableName("b_user")
-public class User implements Serializable {
-    @TableId(value = "id", type = IdType.AUTO)
-    public Long id;
-    
-    @TableField
-    public String username;    // 用户名
-    
-    @TableField
-    public String password;    // 密码
-    
-    @TableField
-    public String email;       // 邮箱
-    
-    @TableField
-    public String mobile;      // 手机号
-    
-    @TableField
-    public String role;        // 角色：1-管理员，2-用户
-    
-    @TableField
-    public String status;      // 状态：0-正常，1-禁用
-    
-    @TableField
-    public String avatar;      // 头像
-    
-    @TableField
-    public String createTime;  // 创建时间
+**统一响应格式**
+```json
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": {
+    // 具体数据
+  },
+  "timestamp": 1640995200000
 }
 ```
 
-**用户控制器实现**：
-```java
-@RestController
-@RequestMapping("/api/user")
-@CrossOrigin(origins = "*")
-public class UserController {
-    
-    @Autowired
-    private UserService userService;
-    
-    @PostMapping("/login")
-    public APIResponse login(@RequestBody Map<String, String> params) {
-        String username = params.get("username");
-        String password = params.get("password");
-        
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return new APIResponse(RestStatus.FAIL, "用户名和密码不能为空");
-        }
-        
-        User user = userService.getUserByUserName(username);
-        if (user == null) {
-            return new APIResponse(RestStatus.FAIL, "用户不存在");
-        }
-        
-        if (!user.password.equals(password)) {
-            return new APIResponse(RestStatus.FAIL, "密码错误");
-        }
-        
-        if (!"0".equals(user.status)) {
-            return new APIResponse(RestStatus.FAIL, "用户已被禁用");
-        }
-        
-        // 生成token
-        String token = TokenUtils.sign(user);
-        
-        Map<String, Object> data = new HashMap<>();
-        data.put("user", user);
-        data.put("token", token);
-        
-        return new APIResponse(RestStatus.SUCCESS, "登录成功", data);
+**分页响应格式**
+```json
+{
+  "code": 200,
+  "message": "查询成功",
+  "data": {
+    "records": [],
+    "total": 100,
+    "current": 1,
+    "size": 10,
+    "pages": 10
+  },
+  "timestamp": 1640995200000
+}
+```
+
+**错误响应格式**
+```json
+{
+  "code": 400,
+  "message": "参数错误",
+  "data": null,
+  "errors": [
+    {
+      "field": "username",
+      "message": "用户名不能为空"
     }
+  ],
+  "timestamp": 1640995200000
 }
 ```
 
-#### 5.1.2 商品展示模块
-
-商品展示模块负责向用户展示商品信息，支持分类筛选、关键词搜索、排序等功能。
-
-**商品实体类设计**：
-```java
-@Data
-@TableName("b_thing")
-public class Thing implements Serializable {
-    @TableId(value = "id", type = IdType.AUTO)
-    public Long id;
-    
-    @TableField
-    public String title;           // 商品标题
-    
-    @TableField
-    public String cover;           // 封面图片
-    
-    @TableField
-    public String description;     // 商品描述
-    
-    @TableField
-    public String price;           // 价格
-    
-    @TableField
-    public String status;          // 状态：0-上架，1-下架
-    
-    @TableField
-    public String repertory;       // 库存
-    
-    @TableField
-    public String pv;              // 浏览量
-    
-    @TableField
-    public String recommendCount;  // 推荐数
-    
-    @TableField
-    public String wishCount;       // 点赞数
-    
-    @TableField
-    public String collectCount;    // 收藏数
-    
-    @TableField
-    public Long classificationId;  // 分类ID
-    
-    @TableField
-    public String createTime;      // 创建时间
-}
-```
-
-#### 5.1.3 AI智能客服模块
-
-AI智能客服模块是本系统的核心创新功能，集成了火山引擎DeepSeek V3大语言模型，为用户提供智能问答服务。
-
-**AI客服控制器实现**：
-```java
-@RestController
-@RequestMapping("/ai-chat")
-@CrossOrigin(origins = "*")
-public class AiChatController {
-    
-    private static final Logger logger = LoggerFactory.getLogger(AiChatController.class);
-    
-    @Autowired
-    private ThingService thingService;
-    
-    @Value("${ai.api.key:}")
-    private String apikey;
-    
-    @Value("${ai.api.url:https://ark.cn-beijing.volces.com/api/v3/chat/completions}")
-    private String apiUrl;
-    
-    @PostMapping("/chat")
-    public APIResponse chat(@RequestBody Map<String, Object> params) {
-        try {
-            String message = (String) params.get("message");
-            String sessionId = (String) params.get("sessionId");
-            
-            if (StringUtils.isEmpty(message)) {
-                return new APIResponse(RestStatus.FAIL, "消息内容不能为空");
-            }
-            
-            // 获取商品信息用于上下文
-            List<Thing> things = getThingInfo();
-            String context = buildContextFromThings(things);
-            
-            // 调用AI API
-            String aiResponse = callAiApi(message, context, sessionId);
-            
-            // 返回结果
-            Map<String, Object> result = new HashMap<>();
-            result.put("message", aiResponse);
-            result.put("timestamp", System.currentTimeMillis());
-            
-            return new APIResponse(RestStatus.SUCCESS, "AI回复成功", result);
-            
-        } catch (Exception e) {
-            logger.error("AI聊天处理失败", e);
-            return new APIResponse(RestStatus.FAIL, "AI服务暂时不可用，请稍后重试");
-        }
-    }
-    
-    private String callAiApi(String userMessage, String context, String sessionId) {
-        // 构建AI API请求，调用火山引擎DeepSeek V3
-        // 具体实现包括请求头设置、消息构建、错误处理等
-    }
-}
-```
-
-### 5.2 后台管理模块实现
-
-后台管理模块为管理员提供系统管理功能，包括用户管理、商品管理、订单管理等。
-
-#### 5.2.1 用户管理
-
-管理员可以查看、编辑用户信息，管理用户状态。
-
-#### 5.2.2 商品管理
-
-支持商品的增删改查操作，包括商品信息维护、分类管理、库存管理等。
-
-#### 5.2.3 订单管理
-
-提供订单查询、状态更新、统计分析等功能。
-
-#### 5.2.4 系统监控
-
-实时监控系统运行状态，包括性能指标、错误日志等。
-
-### 5.3 系统部署与配置
-
-#### 5.3.1 环境配置
-
-系统支持多种部署环境，包括开发环境、测试环境和生产环境。
-
-#### 5.3.2 数据库配置
-
-配置MySQL数据库连接，设置连接池参数，优化数据库性能。
-
-#### 5.3.3 Redis配置
-
-配置Redis缓存服务，提升系统响应速度。
-
-#### 5.3.4 AI服务配置
-
-配置火山引擎DeepSeek V3 API密钥和端点URL。
-
-## 6 系统测试
-
-### 6.1 测试策略与环境
-
-#### 6.1.1 测试目标
-
-本系统测试的主要目标是验证智能书城管理系统的功能完整性、性能指标、安全性和稳定性，确保系统能够满足用户需求和业务要求。
-
-#### 6.1.2 测试环境
-
-**硬件环境**：
-- 服务器：CPU 4核，内存 8GB，硬盘 100GB SSD
-- 客户端：Intel i5处理器，8GB内存，Windows 10操作系统
-- 网络环境：100Mbps带宽
-
-**软件环境**：
-- 操作系统：CentOS 7.9
-- 数据库：MySQL 8.0.28
-- 缓存：Redis 6.2.6
-- Web服务器：Nginx 1.20.1
-- Java运行环境：OpenJDK 1.8
-- 浏览器：Chrome 96+、Firefox 95+、Safari 15+
-
-#### 6.1.3 测试方法
-
-1. **功能测试**：采用黑盒测试方法，验证系统各功能模块是否按需求正确实现
-2. **性能测试**：使用JMeter工具进行并发测试，验证系统性能指标
-3. **安全测试**：检查系统的安全防护机制，防止常见的Web安全漏洞
-4. **兼容性测试**：验证系统在不同浏览器和操作系统下的兼容性
-5. **用户体验测试**：邀请真实用户进行使用测试，收集反馈意见
-
-### 6.2 功能测试
-
-#### 6.2.1 用户认证功能测试
-
-**测试用例1：用户注册功能**
-
-| 测试项目 | 测试数据 | 预期结果 | 实际结果 | 测试状态 |
-|---------|---------|---------|---------|---------|
-| 正常注册 | 用户名：testuser<br>密码：123456<br>邮箱：test@example.com | 注册成功，返回用户信息 | 注册成功，用户信息正确 | ✅ 通过 |
-| 重复用户名 | 用户名：admin<br>密码：123456 | 提示用户名已存在 | 正确提示用户名已存在 | ✅ 通过 |
-| 空用户名 | 用户名：(空)<br>密码：123456 | 提示用户名不能为空 | 正确提示参数错误 | ✅ 通过 |
-| 密码过短 | 用户名：shortpwd<br>密码：123 | 提示密码长度不足 | 注册成功（需优化） | ⚠️ 部分通过 |
-
-**测试用例2：用户登录功能**
-
-| 测试项目 | 测试数据 | 预期结果 | 实际结果 | 测试状态 |
-|---------|---------|---------|---------|---------|
-| 正确登录 | 用户名：admin<br>密码：admin123 | 登录成功，跳转首页 | 登录成功，获得token | ✅ 通过 |
-| 错误密码 | 用户名：admin<br>密码：wrongpwd | 提示密码错误 | 正确提示密码错误 | ✅ 通过 |
-| 不存在用户 | 用户名：noexist<br>密码：123456 | 提示用户不存在 | 正确提示用户不存在 | ✅ 通过 |
-| 禁用用户 | 用户名：disabled<br>密码：123456 | 提示用户已被禁用 | 正确提示用户状态异常 | ✅ 通过 |
-
-#### 6.2.2 商品管理功能测试
-
-**测试用例3：商品列表功能**
-
-| 测试项目 | 测试数据 | 预期结果 | 实际结果 | 测试状态 |
-|---------|---------|---------|---------|---------|
-| 获取商品列表 | 页码：1，大小：10 | 返回商品列表和分页信息 | 正确返回10条商品数据 | ✅ 通过 |
-| 关键词搜索 | 关键词：Java | 返回包含Java的商品 | 返回7条相关商品 | ✅ 通过 |
-| 分类筛选 | 分类ID：1 | 返回指定分类商品 | 正确返回该分类商品 | ✅ 通过 |
-| 价格排序 | 排序：price | 按价格升序排列 | 商品按价格正确排序 | ✅ 通过 |
-
-**测试用例4：商品详情功能**
-
-| 测试项目 | 测试数据 | 预期结果 | 实际结果 | 测试状态 |
-|---------|---------|---------|---------|---------|
-| 查看商品详情 | 商品ID：1 | 返回完整商品信息 | 返回详细商品信息 | ✅ 通过 |
-| 浏览量统计 | 多次访问同一商品 | 浏览量正确增加 | 浏览量实时更新 | ✅ 通过 |
-| 不存在商品 | 商品ID：99999 | 提示商品不存在 | 正确提示商品不存在 | ✅ 通过 |
-
-#### 6.2.3 订单管理功能测试
-
-**测试用例5：订单创建功能**
-
-| 测试项目 | 测试数据 | 预期结果 | 实际结果 | 测试状态 |
-|---------|---------|---------|---------|---------|
-| 正常下单 | 商品ID：1，数量：2 | 创建订单成功 | 订单创建成功，金额正确 | ✅ 通过 |
-| 库存不足 | 商品ID：2，数量：100 | 提示库存不足 | 正确提示库存不足 | ✅ 通过 |
-| 商品下架 | 商品ID：3（已下架） | 提示商品不可购买 | 正确拦截下架商品 | ✅ 通过 |
-
-#### 6.2.4 AI客服功能测试
-
-**测试用例6：AI聊天功能**
-
-| 测试项目 | 测试数据 | 预期结果 | 实际结果 | 测试状态 |
-|---------|---------|---------|---------|---------|
-| 商品咨询 | "推荐一些编程类图书" | 返回编程书籍推荐 | 推荐了3本编程书籍 | ✅ 通过 |
-| 价格询问 | "Java编程思想多少钱？" | 返回具体价格信息 | 准确回答了价格信息 | ✅ 通过 |
-| 订单查询 | "我的订单状态如何？" | 引导用户登录查询 | 正确引导到订单页面 | ✅ 通过 |
-| 无关问题 | "今天天气怎么样？" | 引导回归图书话题 | 礼貌转移到图书推荐 | ✅ 通过 |
-
-### 6.3 性能测试
-
-#### 6.3.1 并发性能测试
-
-使用Apache JMeter工具对系统进行并发性能测试，测试结果如下：
-
-**商品列表接口性能测试**：
-- 并发用户数：100
-- 测试时长：5分钟
-- 平均响应时间：234ms
-- 95%响应时间：456ms
-- 吞吐量：425 TPS
-- 错误率：0%
-
-**用户登录接口性能测试**：
-- 并发用户数：50
-- 测试时长：3分钟
-- 平均响应时间：178ms
-- 95%响应时间：298ms
-- 吞吐量：278 TPS
-- 错误率：0%
-
-**AI聊天接口性能测试**：
-- 并发用户数：20
-- 测试时长：5分钟
-- 平均响应时间：2.3s
-- 95%响应时间：4.1s
-- 吞吐量：8.5 TPS
-- 错误率：0%
-
-#### 6.3.2 数据库性能测试
-
-**MySQL数据库性能指标**：
-- 最大连接数：100
-- 平均查询时间：< 50ms
-- 慢查询率：< 0.1%
-- 缓存命中率：95%
-
-**Redis缓存性能指标**：
-- 内存使用率：< 60%
-- 平均响应时间：< 1ms
-- 缓存命中率：88%
-
-#### 6.3.3 系统资源使用测试
-
-在并发100用户的压力测试下，系统资源使用情况：
-
-- CPU使用率：平均65%，峰值82%
-- 内存使用率：平均45%，峰值58%
-- 磁盘IO：读取速度56MB/s，写入速度32MB/s
-- 网络带宽：入站35Mbps，出站42Mbps
-
-### 6.4 安全性测试
-
-#### 6.4.1 身份认证安全测试
-
-1. **密码安全**：系统对密码进行了哈希加密存储
-2. **会话管理**：使用JWT令牌机制，令牌有效期设置合理
-3. **权限控制**：不同角色用户的权限控制正确
-4. **登录保护**：防止暴力破解攻击
-
-#### 6.4.2 数据安全测试
-
-1. **SQL注入防护**：使用MyBatis-Plus参数化查询，有效防止SQL注入
-2. **XSS防护**：前端对用户输入进行过滤和转义
-3. **CSRF防护**：API接口使用token验证，防止跨站请求伪造
-4. **数据传输加密**：使用HTTPS加密数据传输
-
-#### 6.4.3 业务安全测试
-
-1. **订单安全**：订单金额校验，防止篡改
-2. **库存安全**：并发下单时库存扣减正确
-3. **支付安全**：预留安全的支付接口
-4. **数据备份**：定期备份重要业务数据
-
-### 6.5 兼容性测试
-
-#### 6.5.1 浏览器兼容性测试
-
-| 浏览器 | 版本 | 兼容性测试结果 | 备注 |
-|--------|------|---------------|------|
-| Chrome | 96+ | ✅ 完全兼容 | 推荐使用 |
-| Firefox | 95+ | ✅ 完全兼容 | 功能正常 |
-| Safari | 15+ | ✅ 完全兼容 | macOS下测试通过 |
-| Edge | 96+ | ✅ 完全兼容 | Windows 10下测试 |
-| IE | 11 | ⚠️ 部分兼容 | 部分CSS3特性不支持 |
-
-#### 6.5.2 移动端兼容性测试
-
-| 设备类型 | 测试结果 | 备注 |
-|---------|---------|------|
-| iPhone | ✅ 兼容 | 响应式设计适配良好 |
-| Android | ✅ 兼容 | 各种屏幕尺寸适配正常 |
-| iPad | ✅ 兼容 | 平板设备体验良好 |
-
-### 6.6 测试结论
-
-通过全面的功能测试、性能测试、安全性测试和兼容性测试，可以得出以下结论：
-
-#### 6.6.1 测试总结
-
-1. **功能完整性**：系统各核心功能模块均按需求正确实现，功能测试通过率达到98%
-2. **性能表现**：系统在并发100用户时响应时间符合要求，性能指标达到设计目标
-3. **安全性**：系统具备完善的安全防护机制，通过了主要安全测试项目
-4. **兼容性**：系统在主流浏览器和设备上兼容性良好，用户体验一致
-
-#### 6.6.2 发现的问题及解决方案
-
-1. **密码强度校验**：当前密码长度校验较松，建议加强密码复杂度要求
-2. **AI响应时间**：在高并发时AI客服响应时间较长，建议增加缓存机制
-3. **IE浏览器兼容**：部分CSS3特性在IE11下显示异常，可考虑降级处理
-
-#### 6.6.3 测试结论
-
-智能书城管理系统经过全面测试，系统功能完整、性能稳定、安全可靠，能够满足实际业务需求，可以投入生产环境使用。
-
-## 7 总结与展望
-
-### 7.1 系统总结
-
-#### 7.1.1 研究成果
-
-本文成功设计并实现了一个基于SpringBoot的智能书城管理系统，主要研究成果包括：
-
-1. **技术架构创新**：采用现代化的前后端分离架构，后端使用SpringBoot构建RESTful API服务，前端使用Vue3开发响应式用户界面，实现了良好的系统架构设计。
-
-2. **AI技术集成**：成功集成火山引擎DeepSeek V3大语言模型，实现了智能客服功能，能够7×24小时为用户提供图书咨询和推荐服务，显著提升了用户体验。
-
-3. **完整的电商功能**：实现了用户注册登录、商品浏览搜索、购物车管理、订单处理、支付流程等完整的电子商务功能，满足了现代图书销售的业务需求。
-
-4. **数据库优化设计**：设计了合理的数据库表结构，使用MySQL存储核心业务数据，集成Redis缓存提升系统性能，确保了数据的一致性和查询效率。
-
-5. **系统安全保障**：实现了完善的用户认证和权限控制机制，采用JWT令牌认证，防止了常见的Web安全漏洞，保障了系统和用户数据的安全。
-
-#### 7.1.2 技术特点
-
-1. **现代化技术栈**：全面采用当前主流的技术框架，包括SpringBoot、Vue3、MyBatis-Plus等，确保了系统的技术先进性和可维护性。
-
-2. **智能化服务**：通过AI技术的应用，实现了智能客服、个性化推荐等功能，为传统电商系统注入了智能化元素。
-
-3. **高性能设计**：通过Redis缓存、数据库优化、前端性能优化等手段，确保系统能够支持高并发访问。
-
-4. **用户体验优化**：采用响应式设计，支持多终端访问，界面美观易用，提升了用户的使用体验。
-
-5. **扩展性良好**：模块化的系统设计使得功能扩展和性能优化都相对容易实现。
-
-#### 7.1.3 创新点
-
-1. **AI驱动的智能客服系统**：集成大语言模型技术，实现了基于商品信息的智能问答和推荐，这在传统电商系统中较为少见。
-
-2. **上下文感知的AI交互**：AI客服能够理解商品信息上下文，提供准确的商品推荐和价格查询，提升了交互的智能化水平。
-
-3. **现代化的开发架构**：采用前后端分离、微服务化的设计思想，为系统的横向扩展和维护提供了良好的基础。
-
-#### 7.1.4 应用价值
-
-1. **商业价值**：系统为中小型书店提供了数字化转型的解决方案，降低了运营成本，提高了服务效率。
-
-2. **技术价值**：展示了AI技术在电商领域的应用前景，为相关技术研究提供了实践参考。
-
-3. **教育价值**：系统的设计和实现过程体现了现代软件工程的最佳实践，具有很好的教学参考价值。
-
-### 7.2 未来展望
-
-#### 7.2.1 功能扩展方向
-
-1. **多模态AI交互**：
-   - 支持语音识别和语音合成，实现语音客服功能
-   - 集成图像识别技术，支持通过拍照搜索图书
-   - 增加视频推荐功能，为用户提供图书介绍视频
-
-2. **个性化推荐系统**：
-   - 基于用户行为数据建立推荐模型
-   - 实现协同过滤和内容推荐算法
-   - 支持实时推荐和离线推荐相结合
-
-3. **社交功能扩展**：
-   - 增加用户评论和评分系统
-   - 实现用户间的图书分享功能
-   - 建立读书社区和讨论论坛
-
-4. **营销功能增强**：
-   - 实现优惠券和促销活动管理
-   - 支持团购和秒杀功能
-   - 增加会员等级和积分系统
-
-#### 7.2.2 技术优化方向
-
-1. **性能优化**：
-   - 实现分布式缓存架构
-   - 引入消息队列处理异步任务
-   - 采用CDN加速静态资源访问
-   - 实现数据库读写分离
-
-2. **微服务架构升级**：
-   - 将单体应用拆分为微服务
-   - 引入服务注册和发现机制
-   - 实现服务熔断和限流功能
-   - 采用容器化部署方案
-
-3. **AI技术深化**：
-   - 训练专门的图书领域AI模型
-   - 实现情感分析和用户画像
-   - 增加智能库存管理功能
-   - 支持自动化的内容生成
-
-4. **安全性增强**：
-   - 实现OAuth2.0认证机制
-   - 增加API访问频率限制
-   - 实现实时安全监控和告警
-   - 加强数据加密和脱敏处理
-
-#### 7.2.3 业务模式创新
-
-1. **知识服务扩展**：
-   - 提供在线阅读和学习服务
-   - 增加作者直播和线上活动
-   - 实现图书租赁和订阅服务
-   - 支持电子书和有声书销售
-
-2. **生态系统建设**：
-   - 建立出版社合作平台
-   - 实现作者入驻和自出版功能
-   - 增加第三方书店接入能力
-   - 支持跨平台数据同步
-
-3. **国际化发展**：
-   - 支持多语言界面和内容
-   - 实现跨境电商功能
-   - 适配不同地区的支付方式
-   - 建立全球化的物流体系
-
-#### 7.2.4 技术发展趋势适应
-
-1. **新兴技术集成**：
-   - 探索区块链在版权保护中的应用
-   - 研究AR/VR技术在图书展示中的使用
-   - 集成物联网技术实现智能库存管理
-   - 应用边缘计算提升响应速度
-
-2. **数据智能化**：
-   - 构建实时数据分析平台
-   - 实现预测性分析和智能决策
-   - 建立用户行为分析体系
-   - 支持A/B测试和精准营销
-
-3. **云原生架构**：
-   - 全面采用云原生技术栈
-   - 实现自动化运维和监控
-   - 支持弹性伸缩和故障自愈
-   - 建立多云部署能力
-
-### 7.3 结语
-
-本智能书城管理系统的设计与实现，不仅体现了现代Web开发技术的应用，更重要的是展示了AI技术在传统电商领域的创新应用。通过深入的需求分析、合理的系统设计、规范的编码实现和全面的测试验证，最终构建了一个功能完整、性能稳定、用户体验良好的智能化电商平台。
-
-系统的成功实现证明了以下几点：
-
-1. **技术融合的可行性**：传统Web技术与AI技术的结合是可行的，能够为用户带来更智能化的服务体验。
-
-2. **架构设计的重要性**：良好的系统架构设计是项目成功的关键，前后端分离架构为系统的维护和扩展提供了坚实基础。
-
-3. **用户体验的核心地位**：无论技术如何先进，最终都要以提升用户体验为目标，这是系统价值的根本体现。
-
-4. **持续优化的必要性**：技术发展日新月异，系统需要持续优化和升级，才能保持竞争优势。
-
-随着人工智能技术的不断发展和电子商务的深入普及，智能化电商系统将成为未来的发展趋势。本项目为这一趋势提供了有益的探索和实践，希望能够为相关领域的研究和应用提供参考和启发。
-
-通过本项目的研究和实现，不仅掌握了现代Web开发的核心技术，更重要的是理解了如何将新技术应用到实际业务场景中，解决真实的用户需求。这种理论与实践相结合的经验，将为未来的技术研究和项目开发奠定坚实的基础。
+通过以上系统设计，我们建立了完整的智能书城管理系统架构，包括总体架构设计、数据库设计和API接口设计。这个设计方案既考虑了系统的功能完整性，也兼顾了性能、安全性和可扩展性等非功能性需求。
