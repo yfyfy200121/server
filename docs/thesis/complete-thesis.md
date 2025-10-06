@@ -1713,9 +1713,9 @@ ALTER TABLE comment PARTITION BY RANGE(YEAR(create_time)) (
 }
 ```
 
-### 6.2 核心功能模块实现
+### 7.2 核心功能模块实现
 
-#### 6.2.1 用户管理模块实现
+#### 7.2.1 用户管理模块实现
 
 **1. 用户实体类设计**
 
@@ -3295,7 +3295,7 @@ logging:
 - **性能测试**：JMeter, LoadRunner
 - **自动化测试**：Selenium WebDriver
 
-### 7.2 单元测试
+### 8.2 单元测试
 
 #### 8.2.1 后端单元测试
 
