@@ -1326,15 +1326,187 @@ public class ApiResponse<T> {
 
 ## 6. 数据库设计
 
-### 6.1 数据库设计原则
+### 6.1 数据库连接的实现
 
-在数据库设计过程中，遵循以下设计原则：
+本项目采用SpringBoot框架集成MyBatis-Plus实现与MySQL数据库的连接。SpringBoot通过自动配置机制，简化了数据库连接池和ORM框架的配置过程。下面详细介绍系统实现数据库连接的具体步骤和关键代码。
 
-1. **规范化原则**：遵循数据库范式设计，减少数据冗余
-2. **完整性原则**：确保数据的实体完整性、参照完整性和用户定义完整性
-3. **一致性原则**：保证数据库的一致性约束
-4. **可扩展性原则**：考虑系统未来扩展需求
-5. **性能优化原则**：合理设计索引，优化查询性能
+#### 6.1.1 数据库连接实现步骤
+
+**步骤1：添加数据库相关依赖**
+
+在项目的`pom.xml`文件中添加MySQL驱动和MyBatis-Plus依赖：
+
+**表6-1 数据库依赖配置**
+```xml
+<!-- MySQL数据库驱动 -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.19</version>
+</dependency>
+
+<!-- MyBatis-Plus ORM框架 -->
+<dependency>
+    <groupId>com.baomidou</groupId>
+    <artifactId>mybatis-plus-boot-starter</artifactId>
+    <version>3.5.2</version>
+</dependency>
+```
+
+**步骤2：配置数据库连接参数**
+
+在`src/main/resources/application.properties`文件中配置数据库连接信息：
+
+**表6-2 数据库连接配置**
+```properties
+# MySQL数据库连接配置
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/base_zxsc?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=123456
+
+# HikariCP连接池配置
+spring.datasource.hikari.minimum-idle=10
+
+# MyBatis-Plus配置
+mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+mybatis.configuration.map-underscore-to-camel-case=true
+```
+
+配置说明：
+- `driver-class-name`：指定MySQL 8.0的JDBC驱动类
+- `url`：数据库连接地址，包含数据库名称和连接参数
+  - `characterEncoding=utf-8`：设置字符编码
+  - `serverTimezone=GMT%2B8`：设置时区为东八区
+  - `useSSL=false`：关闭SSL连接
+  - `allowPublicKeyRetrieval=true`：允许客户端从服务器获取公钥
+- `username`和`password`：数据库登录凭证
+- `hikari.minimum-idle`：连接池最小空闲连接数
+- `log-impl`：配置MyBatis日志输出实现
+- `map-underscore-to-camel-case`：开启下划线到驼峰命名转换
+
+**步骤3：创建实体类**
+
+使用MyBatis-Plus注解定义实体类与数据库表的映射关系：
+
+**表6-3 用户实体类示例**
+```java
+package com.gk.study.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import java.io.Serializable;
+
+@Data
+@TableName("b_user")
+public class User implements Serializable {
+    @TableId(value = "id", type = IdType.AUTO)
+    public String id;
+    
+    @TableField
+    public String username;
+    
+    @TableField
+    public String password;
+    
+    @TableField
+    public String nickname;
+    
+    @TableField
+    public String mobile;
+    
+    @TableField
+    public String email;
+    
+    @TableField
+    public String role;
+    
+    @TableField
+    public String status;
+    
+    @TableField
+    public String createTime;
+}
+```
+
+注解说明：
+- `@Data`：Lombok注解，自动生成getter/setter方法
+- `@TableName`：指定对应的数据库表名
+- `@TableId`：指定主键字段，`type = IdType.AUTO`表示主键自增
+- `@TableField`：标注普通字段
+
+**步骤4：创建Mapper接口**
+
+继承MyBatis-Plus的BaseMapper接口，无需编写SQL即可实现基本的CRUD操作：
+
+**表6-4 Mapper接口示例**
+```java
+package com.gk.study.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.gk.study.entity.User;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface UserMapper extends BaseMapper<User> {
+    // BaseMapper提供了基本的CRUD方法
+    // 如需自定义SQL，可在此添加方法声明
+}
+```
+
+**步骤5：启动类配置**
+
+在SpringBoot主启动类中添加`@SpringBootApplication`注解，框架会自动完成数据源配置：
+
+**表6-5 主启动类**
+```java
+package com.gk.study;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MySpringApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MySpringApplication.class, args);
+    }
+}
+```
+
+#### 6.1.2 数据库连接工作原理
+
+SpringBoot通过以下机制实现数据库连接：
+
+1. **自动配置机制**：SpringBoot的`spring-boot-autoconfigure`模块检测到classpath中的MySQL驱动和MyBatis-Plus依赖后，自动配置`DataSource`、`SqlSessionFactory`等Bean。
+
+2. **连接池管理**：默认使用HikariCP作为数据库连接池，提供高性能的连接管理。连接池在应用启动时创建，维护一定数量的数据库连接供应用使用，避免频繁创建和销毁连接的开销。
+
+3. **ORM映射**：MyBatis-Plus通过实体类的注解信息，自动生成SQL语句，实现Java对象与数据库表记录之间的相互转换。
+
+4. **事务管理**：SpringBoot自动配置事务管理器，支持声明式事务，通过`@Transactional`注解即可控制事务边界。
+
+#### 6.1.3 连接池配置优化
+
+为提升系统性能，可对连接池进行优化配置：
+
+**表6-6 HikariCP连接池优化配置**
+```properties
+# 连接池最小空闲连接数
+spring.datasource.hikari.minimum-idle=10
+# 连接池最大连接数
+spring.datasource.hikari.maximum-pool-size=50
+# 连接超时时间（毫秒）
+spring.datasource.hikari.connection-timeout=30000
+# 连接最大生命周期（毫秒）
+spring.datasource.hikari.max-lifetime=1800000
+# 空闲连接超时时间（毫秒）
+spring.datasource.hikari.idle-timeout=600000
+```
+
+通过以上配置，系统成功建立了与MySQL数据库的连接，为后续的数据持久化操作提供了基础支持。MyBatis-Plus的BaseMapper提供了丰富的CRUD方法，极大地简化了数据访问层的开发工作。
 
 ### 6.2 数据库概念模型设计
 
