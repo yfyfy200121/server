@@ -16,6 +16,11 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import com.gk.study.entity.Comment;
 
@@ -42,6 +47,11 @@ public class AiChatController {
     private long lastCacheUpdate = 0;
     private final long CACHE_DURATION = 5 * 60 * 1000; // 5分钟缓存
 
+    // 缓存论文内容
+    private String thesisContent = null;
+    private long lastThesisCacheUpdate = 0;
+    private final long THESIS_CACHE_DURATION = 30 * 60 * 1000; // 30分钟缓存
+
     /**
      * 获取并缓存商品信息
      * @return 商品列表
@@ -57,12 +67,73 @@ public class AiChatController {
     }
 
     /**
-     * 构建包含商品信息的系统提示
+     * 获取并缓存论文内容
+     * @return 论文内容字符串
+     */
+    private String getThesisContent() {
+        long currentTime = System.currentTimeMillis();
+        if (thesisContent == null || (currentTime - lastThesisCacheUpdate) > THESIS_CACHE_DURATION) {
+            logger.info("Refreshing thesis content cache");
+            try {
+                // 尝试多个可能的路径
+                String[] possiblePaths = {
+                    "docs/thesis/complete-thesis.md",
+                    "../docs/thesis/complete-thesis.md",
+                    "../../docs/thesis/complete-thesis.md",
+                    "/home/runner/work/server/server/docs/thesis/complete-thesis.md"
+                };
+                
+                Path thesisPath = null;
+                for (String pathStr : possiblePaths) {
+                    Path testPath = Paths.get(pathStr);
+                    if (Files.exists(testPath)) {
+                        thesisPath = testPath;
+                        logger.info("Found thesis file at: {}", testPath.toAbsolutePath());
+                        break;
+                    }
+                }
+                
+                if (thesisPath != null) {
+                    String fullContent = new String(Files.readAllBytes(thesisPath), StandardCharsets.UTF_8);
+                    // 提取论文的关键部分，避免内容过长
+                    // 只取前10000字符作为摘要
+                    if (fullContent.length() > 10000) {
+                        thesisContent = fullContent.substring(0, 10000) + "\n\n[论文内容较长，已截取前面部分作为参考]";
+                    } else {
+                        thesisContent = fullContent;
+                    }
+                    lastThesisCacheUpdate = currentTime;
+                    logger.info("Successfully loaded thesis content, length: {}", thesisContent.length());
+                } else {
+                    logger.warn("Thesis file not found at any expected location");
+                    thesisContent = ""; // 设置为空字符串避免重复尝试
+                }
+            } catch (IOException e) {
+                logger.error("Error reading thesis file", e);
+                thesisContent = ""; // 设置为空字符串避免重复尝试
+            }
+        }
+        return thesisContent;
+    }
+
+    /**
+     * 构建包含商品信息和论文内容的系统提示
      * @return 系统提示字符串
      */
     private String buildSystemPrompt() {
         StringBuilder prompt = new StringBuilder();
-        prompt.append("你是购物商城的智能客服助手。你的任务是帮助用户了解商城中的商品信息。");
+        prompt.append("你是购物商城的智能客服助手。你的任务是帮助用户了解商城中的商品信息，同时也可以回答关于本系统的技术实现和论文相关的问题。");
+        
+        // 添加论文内容
+        String thesis = getThesisContent();
+        if (thesis != null && !thesis.isEmpty()) {
+            prompt.append("\n\n=== 系统论文和技术文档 ===\n");
+            prompt.append("以下是本系统的完整论文内容，包含系统设计、技术实现、功能模块等详细信息：\n\n");
+            prompt.append(thesis);
+            prompt.append("\n\n=== 论文内容结束 ===\n\n");
+        }
+        
+        prompt.append("\n=== 商城商品信息 ===\n");
         prompt.append("以下是商城中的商品信息及用户评价：\n");
 
         List<Thing> things = getThingInfo();
@@ -89,9 +160,12 @@ public class AiChatController {
             prompt.append("---\n");
         }
 
-        prompt.append("\n请根据以上商品信息和用户评价回答用户的问题，特别关注用户评论中提到的优点和问题。");
-        prompt.append("如果用户询问推荐商品，请优先考虑高评分和正面评价的商品。");
-        prompt.append("如果用户询问的问题与商品无关，请礼貌地告知用户你主要的功能是帮助他们了解商城商品。");
+        prompt.append("\n=== 使用指南 ===\n");
+        prompt.append("请根据以上商品信息、用户评价和系统论文内容回答用户的问题：\n");
+        prompt.append("1. 如果用户询问商品推荐，请基于商品信息和用户评价推荐高评分商品。\n");
+        prompt.append("2. 如果用户询问系统功能、技术实现、架构设计等问题，请参考论文内容详细回答。\n");
+        prompt.append("3. 如果用户询问如何使用系统、系统特点等，请参考论文中的相关章节。\n");
+        prompt.append("4. 对于其他问题，请根据提供的信息尽力回答，如果不确定请诚实告知。\n");
         return prompt.toString();
     }
 
@@ -231,11 +305,14 @@ public class AiChatController {
     public ResponseEntity<Object> refreshCache() {
         logger.info("Manual cache refresh requested");
         thingCache.clear();
+        thesisContent = null; // 同时清空论文缓存
         getThingInfo(); // 重新加载缓存
+        getThesisContent(); // 重新加载论文
         Map<String, Object> result = new HashMap<>();
         result.put("code", 200);
-        result.put("message", "商品信息缓存已刷新");
-        result.put("data", "成功加载 " + thingCache.size() + " 件商品信息");
+        result.put("message", "缓存已刷新");
+        result.put("data", "成功加载 " + thingCache.size() + " 件商品信息和论文内容（" + 
+                   (thesisContent != null ? thesisContent.length() : 0) + " 字符）");
         return ResponseEntity.ok(result);
     }
 
@@ -253,6 +330,11 @@ public class AiChatController {
         result.put("apiKeyLength", apikey != null ? apikey.length() : 0);
         result.put("apiUrl", apiUrl);
         result.put("thingCount", getThingInfo().size());
+        
+        // 添加论文内容信息
+        String thesis = getThesisContent();
+        result.put("thesisLoaded", thesis != null && !thesis.isEmpty());
+        result.put("thesisContentLength", thesis != null ? thesis.length() : 0);
 
         if (apikey != null && !apikey.isEmpty()) {
             // 隐藏API密钥中间部分以保护隐私
