@@ -4220,6 +4220,36 @@ describe('智能商城E2E测试', () => {
 
 [20] 钱学森, 李文华. 软件测试方法与实践[M]. 北京: 清华大学出版社, 2021: 156-189.
 
+[21] DeepSeek AI. DeepSeek V3 Technical Report[R]. DeepSeek AI, 2024.
+
+[22] Koren, Y., Bell, R., Volinsky, C. Matrix Factorization Techniques for Recommender Systems[J]. Computer, 2009, 42(8): 30-37.
+
+[23] Ricci, F., Rokach, L., Shapira, B. Recommender Systems Handbook[M]. Boston: Springer, 2015: 73-105.
+
+[24] Liu, B. Sentiment Analysis: Mining Opinions, Sentiments, and Emotions[M]. Cambridge University Press, 2020: 1-38.
+
+[25] Pang, B., Lee, L. Opinion Mining and Sentiment Analysis[J]. Foundations and Trends in Information Retrieval, 2008, 2(1-2): 1-135.
+
+[26] Axios HTTP Client Documentation. Axios 1.x Guide. Matt Zabriskie, 2023.
+
+[27] Pinia Documentation. Pinia - The Vue Store. Eduardo San Martin Morote, 2023.
+
+[28] Apache ECharts Documentation. Apache ECharts 5.x. Apache Software Foundation, 2023.
+
+[29] 李强, 陈敏. 电子商务平台架构设计与实践[M]. 北京: 机械工业出版社, 2021: 89-123.
+
+[30] Fielding, R.T. Architectural Styles and the Design of Network-based Software Architectures[D]. University of California, Irvine, 2000.
+
+[31] 张明, 刘华. 基于协同过滤的个性化推荐算法改进研究[J]. 计算机科学, 2022, 49(6): 234-240.
+
+[32] Devlin, J., Chang, M.W., Lee, K., et al. BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding[C]. Proceedings of NAACL-HLT, 2019: 4171-4186.
+
+[33] 赵宇, 王建国. 大数据环境下的用户行为分析系统研究[J]. 软件学报, 2021, 32(10): 3156-3171.
+
+[34] Richardson, L., Ruby, S. RESTful Web Services[M]. O'Reilly Media, 2007: 54-98.
+
+[35] 周杰, 林伟. Web应用安全防护技术研究与实现[J]. 信息网络安全, 2022, 22(4): 45-52.
+
 ---
 
 **致谢**
